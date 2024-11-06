@@ -4,29 +4,41 @@
 
 ```plaintext
 mini_biblioteca/
-├── config/
-│   └── config.php               # Configuración global, credenciales de OAuth y conexión a la base de datos
-├── database/
-│   └── db.php                   # Conexión a la base de datos (MySQL/MariaDB)
-├── models/
-│   ├── Usuario.php              # Modelo para gestionar usuarios en la base de datos
-│   └── Libro.php                # Modelo para gestionar los libros guardados
-├── controllers/
-│   ├── AuthController.php       # Controlador para manejar autenticación OAuth
-│   └── LibroController.php      # Controlador para la búsqueda y gestión de libros favoritos
-├── views/
-│   ├── layout/
-│   │   ├── header.php           # Cabecera con enlaces de navegación y estado de sesión
-│   │   └── footer.php           # Pie de página
-│   ├── auth/
-│   │   └── login.php            # Página de login
-│   └── libros/
-│       ├── lista.php            # Página para ver libros guardados
-│       ├── buscar.php           # Página de búsqueda de libros
-│       └── detalle.php          # Página de detalles de un libro específico
-├── assets/
-│   ├── css/                     # Archivos de estilo
-│   ├── js/                      # Archivos JavaScript
-│   └── images/                  # Imágenes de portada y otros recursos gráficos
-├── index.php                    # Página principal
-└── login.php                    # Página de inicio de sesión y redirección a Google OAuth
+├── public/                     # Carpeta pública (para archivos accesibles desde la web)
+│   ├── index.php               # Punto de entrada principal
+│   ├── login.php               # Página de inicio de sesión (redirección a Google OAuth)
+│   └── logout.php              # Archivo para cerrar sesión
+│
+├── app/                        # Código principal de la aplicación
+│   ├── controllers/            # Controladores manejan la lógica de negocio
+│   │   ├── AuthController.php  # Lógica de autenticación
+│   │   ├── BookController.php  # Lógica para las acciones CRUD de libros
+│   │   └── UserController.php  # Lógica para operaciones de usuarios
+│   │
+│   ├── models/                 # Modelos interactúan con la base de datos
+│   │   ├── UserModel.php       # Modelo de usuario (CRUD para usuarios)
+│   │   └── BookModel.php       # Modelo de libro (CRUD para libros guardados)
+│   │
+│   ├── views/                  # Vistas de la aplicación
+│   │   ├── layout/             # Layouts o plantillas comunes
+│   │   │   └── header.php      # Encabezado común (barra de navegación, etc.)
+│   │   │   └── footer.php      # Pie de página común
+│   │   ├── auth/               # Vistas de autenticación
+│   │   │   └── login.php       # Vista de inicio de sesión
+│   │   ├── books/              # Vistas relacionadas con libros
+│   │   │   ├── list.php        # Listado de libros guardados
+│   │   │   ├── add.php         # Formulario para agregar un libro
+│   │   │   └── edit.php        # Formulario para editar la reseña de un libro
+│   │   └── users/              # Vistas relacionadas con usuarios
+│   │       └── profile.php     # Perfil del usuario
+│
+├── config/                     # Configuración de la aplicación
+│   ├── database.php            # Conexión a la base de datos
+│   └── google_oauth.php        # Configuración de credenciales de Google OAuth
+│
+├── vendor/                     # Dependencias de Composer (si usas alguna)
+│
+└── assets/                     # Archivos estáticos (CSS, JS, imágenes)
+    ├── css/                    # Estilos CSS
+    ├── js/                     # Scripts JS
+    └── images/                 # Imágenes y recursos gráficos
