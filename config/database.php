@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . 'config.php';
 
 function getDBConnection() {
-    $host = getenv('DB_HOST');
-    $db   = getenv('DB_NAME');
-    $user = getenv('DB_USER');
-    $pass = getenv('DB_PASS');
+    $host = getenv('localhost');
+    $db   = getenv('biblioteca');
+    $user = getenv('root');
+    $pass = getenv('');
     $charset = 'utf8mb4';
 
     $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
