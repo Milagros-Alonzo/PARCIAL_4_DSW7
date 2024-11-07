@@ -33,7 +33,7 @@ $arrayDatosPorPagina = array_slice($array, $inicio, $itemsPorPagina);
                 <i class="fa-solid fa-plus"></i> Add New User
             </button>
         </div>
-        <div class="eventos-filtros d-flex p-2 gap-3">
+        <!-- <div class="eventos-filtros d-flex p-2 gap-3">
             <form class="form" action="">
                 <select class="form-select" aria-label="Default select example">
                     <option selected>Open this select menu</option>
@@ -49,7 +49,8 @@ $arrayDatosPorPagina = array_slice($array, $inicio, $itemsPorPagina);
                 </select>
                 <button class="btn btn-primary" type="submit"> <i class="fa-solid fa-filter"></i> Filter</button>
             </form>
-        </div>
+        </div> -->
+
     </div>
     <!-- table  -->
     <div class="overflow-x-auto">
