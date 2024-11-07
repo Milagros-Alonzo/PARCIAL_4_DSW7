@@ -33,24 +33,6 @@ $arrayDatosPorPagina = array_slice($array, $inicio, $itemsPorPagina);
                 <i class="fa-solid fa-plus"></i> Añadir Libro
             </button>
         </div>
-        <!-- <div class="eventos-filtros d-flex p-2 gap-3">
-            <form class="form" action="">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-                <button class="btn btn-primary" type="submit"> <i class="fa-solid fa-filter"></i> Filter</button>
-            </form>
-        </div> -->
-
     </div>
     <!-- table  -->
     <div class="overflow-x-auto">
@@ -196,13 +178,11 @@ $arrayDatosPorPagina = array_slice($array, $inicio, $itemsPorPagina);
                         // Aquí se asume que el servidor devuelve un objeto con los datos del usuario
                         if (data) {
                             // Actualiza los campos del formulario en el modal
-                            document.getElementById('user_id').value = data.id;
-                            document.getElementById('rol').value = data.rol;
+                            document.getElementById('id').value = data.id;
                             document.getElementById('nombre').value = data.nombre;
-                            document.getElementById('apellido').value = data.apellido;
                             document.getElementById('email').value = data.correo;
-                            document.getElementById('telefono').value = data.telefono;
-                            document.getElementById('direccion').value = data.direccion;
+                            document.getElementById('gogole_id').value = data.telefono;
+                            document.getElementById('fecha_registro').value = data.direccion;
                             /*
                                                         // Muestra el modal
                                                         const modal = new bootstrap.Modal(document.getElementById('edit_admin_modal'));
