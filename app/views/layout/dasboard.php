@@ -15,7 +15,7 @@ $inicio = ($paginaActual - 1) * $itemsPorPagina;
 $arrayDatosPorPagina = array_slice($array, $inicio, $itemsPorPagina);
 
 ?>
-<div class=" body container-fluid justify-content-center " id="container-usuarios">
+<div class=" body container-fluid justify-content-center " id="container-libros">
     <div class="header-admin">
 
         <h2> Dasboard de Libros Biblioteca</h2>
@@ -25,12 +25,12 @@ $arrayDatosPorPagina = array_slice($array, $inicio, $itemsPorPagina);
         <div class="eventos d-flex p-2 gap-3">
             <span>
                 <input type="checkbox" class="btn-check" id="btn-check_all" autocomplete="off">
-                <label class="btn btn-primary" for="btn-check_all">Select All</label>
+                <label class="btn btn-primary" for="btn-check_all">Seleccionar Todo</label>
             </span>
 
-            <button class="btn btn-danger" id="btn_delete_all_user" disabled> <i class="fa-solid fa-trash"></i> Delete All</button>
+            <button class="btn btn-danger" id="btn_delete_all_user" disabled> <i class="fa-solid fa-trash"></i> Eliminar Todo</button>
             <button class="btn btn-secondary" data-bs-target="#add_admin_modal" data-bs-toggle="modal">
-                <i class="fa-solid fa-plus"></i> Add New User
+                <i class="fa-solid fa-plus"></i> Añadir Libro
             </button>
         </div>
         <!-- <div class="eventos-filtros d-flex p-2 gap-3">
@@ -58,14 +58,14 @@ $arrayDatosPorPagina = array_slice($array, $inicio, $itemsPorPagina);
             <thead>
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">Acciones</th>
-                    <th scope="col">Rol</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido</th>
-                    <th scope="col">E mail</th>
-                    <th scope="col">Télefono</th>
-                    <th scope="col">Dirrección</th>
-
+                    <th scope="col">Id</th>
+                    <th scope="col">User Id</th>
+                    <th scope="col">Google Books Id</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Imagen Portada</th>
+                    <th scope="col">Reseña Personal</th>
+                    <th scope="col">Fecha Guardado</th>
                 </tr>
             </thead>
             <tbody>
