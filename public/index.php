@@ -7,7 +7,7 @@
     if (isset($_SESSION['sesion']) && $_SESSION['sesion']) {
         include '../app/views/auth/login.php';
     } else {
-        include '../app/views/layout/dasboard.php';
+        include '../app/views/layout/dasboard_libros.php';
     }
 
 
