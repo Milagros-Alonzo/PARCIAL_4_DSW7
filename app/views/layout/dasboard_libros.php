@@ -194,7 +194,7 @@ $arrayDatosPorPagina = array_slice($books_array, $inicio, $itemsPorPagina);
                         <td><?php echo $arrayBook['Autor']?></td>
                         <td>
                             <span>
-                                <img src="<?php echo $arrayBook['ImagenPortada']?>" alt="<?php echo $arrayBook['Titulo']?>">
+                                <img class='img-fluid' src="<?php echo $arrayBook['ImagenPortada']?>" alt="<?php echo $arrayBook['Titulo']?>">
                             </span>
                         </td>
                         <td><?php echo $arrayBook['ReseñaPersonal']?></td>
