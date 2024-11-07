@@ -64,7 +64,7 @@ $arrayDatosPorPagina = array_slice($array, $inicio, $itemsPorPagina);
                             <!-- Edit button that opens the modal and passes the user ID -->
                             <span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Edit">
                                 <buttom class=" btn btn-primary "
-                                    data-user-id="<?php //echo $user_info['id'];?>"
+                                    data-libro-id="<?php //echo $user_info['id'];?>"
                                     data-bs-target="#edit_admin_modal"
                                     id="btn_edit_user"
                                     data-bs-toggle="modal">
@@ -76,7 +76,7 @@ $arrayDatosPorPagina = array_slice($array, $inicio, $itemsPorPagina);
                                 class="btn btn-danger" data-bs-toggle="tooltip"
                                 data-bs-placement="right" data-bs-title="Delete"
                                 id="btnDeleteUser"
-                                data-user-id="<?php //echo $user_info['id']; 
+                                data-libro-id="<?php //echo $user_info['id']; 
                                                 ?>"
                                 class="btn btn-danger" data-bs-toggle="tooltip">
                                 <i class="fa fa-trash"></i>
@@ -155,7 +155,7 @@ $arrayDatosPorPagina = array_slice($array, $inicio, $itemsPorPagina);
 
         btnEditUser.forEach(button => {
             button.addEventListener('click', (e) => {
-                const userId = button.getAttribute('data-user-id'); // Obtiene el `userId` del atributo `data-user-id`
+                const userId = button.getAttribute('data-libro-id'); // Obtiene el `userId` del atributo `data-libro-id`
 
                 // Verifica que `userId` no esté vacío
                 if (!userId) {
@@ -179,14 +179,16 @@ $arrayDatosPorPagina = array_slice($array, $inicio, $itemsPorPagina);
                         if (data) {
                             // Actualiza los campos del formulario en el modal
                             document.getElementById('id').value = data.id;
-                            document.getElementById('nombre').value = data.nombre;
-                            document.getElementById('email').value = data.correo;
-                            document.getElementById('gogole_id').value = data.telefono;
-                            document.getElementById('fecha_registro').value = data.direccion;
+                            document.getElementById('user_id').value = data.user_id;
+                            document.getElementById('google_books_id').value = data.google_books_id;
+                            document.getElementById('title').value = data.title;
+                            document.getElementById('imagen_portada').value = data.portada;
+                            document.getElementById('resena_personal').value = data.resena_personal;
+                            document.getElementById('fecha_guardado').value = data.fecha_guardado;
                             /*
-                                                        // Muestra el modal
-                                                        const modal = new bootstrap.Modal(document.getElementById('edit_admin_modal'));
-                                                        modal.show();*/
+                             // Muestra el modal
+                            onst modal = new bootstrap.Modal(document.getElementById('edit_admin_modal'));
+                              modal.show();*/
 
                         } else {
                             console.error('Error: no se recibieron datos del usuario.');
@@ -197,7 +199,7 @@ $arrayDatosPorPagina = array_slice($array, $inicio, $itemsPorPagina);
         });
     });
     btnDeleteUser.addEventListener('click', (e) => {
-        const userId = btnDeleteUser.getAttribute('data-user-id'); // Obtiene el `userId` del atributo `data-user-id`
+        const userId = btnDeleteUser.getAttribute('data-libro-id'); // Obtiene el `userId` del atributo `data-libro-id`
 
         // Verifica que `userId` no esté vacío
         if (!userId) {
