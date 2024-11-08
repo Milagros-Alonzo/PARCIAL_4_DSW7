@@ -1,10 +1,10 @@
 <?php
 session_start();
 require_once 'GoogleOAuth.php';
-require_once __DIR__ . '/../../config/config.php';  // Ruta al archivo config.php
+require_once __DIR__ . '/../../src/config.php';  // Ruta al archivo config.php
 
 // Cargar el archivo .env desde la raíz del proyecto
-loadEnv(__DIR__ . '/../../.env');  // Corregimos la ruta para subir al directorio raíz
+loadEnv(__DIR__ . '/../../public/.env');  // Corregimos la ruta para subir al directorio raíz
 
 // Obtener las variables del archivo .env
 $client_secret = getenv('CLIENT_SECRET');
