@@ -83,9 +83,8 @@
             <input type="submit" value="Iniciar Sesión">
         </form>
         
-        <!-- Botón de inicio de sesión con Google -->
         <div style="margin-top: 20px;">
-            <?php include "C:\laragon\www\PARCIALES\PARCIAL_4_DSW7\app\oauth\sesion_GoogleOauth.php"; ?>
+            <?php include __DIR__ . '/../app/oauth/sesion_GoogleOauth.php'; ?>
         </div>
     </div>
 </body>
