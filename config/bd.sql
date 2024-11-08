@@ -2,7 +2,7 @@
 CREATE DATABASE biblioteca;
 
 -- Usar la base de datos creada
-USE biblioteca;
+USE Biblioteca;
 
 -- Crear la tabla de usuarios
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -25,3 +25,4 @@ CREATE TABLE IF NOT EXISTS libros_guardados (
     fecha_guardado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
+mysql://root:ZOskAlesufLbKVbvYFmyZelfBHzROMsG@autorack.proxy.rlwy.net:56051/railway

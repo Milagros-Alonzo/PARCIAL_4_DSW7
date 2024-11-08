@@ -5,7 +5,7 @@ function getDBConnection() {
     $host = getenv('localhost');
     $db   = getenv('biblioteca');
     $user = getenv('root');
-    $pass = getenv('');
+    $pass = getenv('ZOskAlesufLbKVbvYFmyZelfBHzROMsG');
     $charset = 'utf8mb4';
 
     $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
