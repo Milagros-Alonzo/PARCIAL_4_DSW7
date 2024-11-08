@@ -1,5 +1,10 @@
 <?php
 function loadEnv($path) {
+    if (!file_exists($path)) {
+        echo "Error: El archivo .env no existe en la ruta: $path";
+        return;
+    }
+
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($lines as $line) {
         if (strpos(trim($line), '#') === 0) {
@@ -15,9 +20,4 @@ function loadEnv($path) {
         }
     }
 }
-
-function escape($string) {
-    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
-}
-
-loadEnv(__DIR__ . '/../.env');
+?>
