@@ -4,17 +4,17 @@
 // Incluir el modelo de usuario
 require_once 'app/models/UserModel.php';
 // Incluir la función de conexión a la base de datos
-require_once '../config/database.php';
+require_once __DIR__ . '/../src/database/database.php';
 
 class UserController {
-
+    
     private $userModel;
+    private $db;
 
     // Constructor: inicializa el modelo de usuarios con la conexión a la base de datos
     public function __construct() {
-        // Obtener la conexión a la base de datos
-        $db = getDBConnection();
-        $this->userModel = new UserModel($db); // Pasar la conexión a UserModel
+        $database = new Database();
+        $this->db = $database->getConnection();
     }
 
     // Actualizar la información de un usuario (por ejemplo, su nombre)
