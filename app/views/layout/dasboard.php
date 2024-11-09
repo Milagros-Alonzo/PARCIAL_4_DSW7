@@ -20,23 +20,25 @@ require __DIR__ . '/../components/editLibro.php';
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Cerrar Sesion</a></li>
+                        <li><a class="dropdown-item" href="./../public/logout.php">Cerrar Sesion</a></li>
                     </ul>
                 </div>
             </span>
         </span>
     </div>
-    <div class="container-eventos">
+    <div class="container-eventos container-fluid">
 
         <div class="eventos d-flex gap-3 p-2 ">
-            <span>
-                <input type="checkbox" class="btn-check" id="btnCheckAllBooks" autocomplete="off">
-                <label class="btn btn-primary" for="btnCheckAllBooks">Seleccionar Todo</label>
-            </span>
+            <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
+                <span>
+                    <input type="checkbox" class="btn-check" id="btnCheckAllBooks" autocomplete="off">
+                    <label class="btn btn-primary" for="btnCheckAllBooks">Seleccionar Todo</label>
+                </span>
 
-            <button class="btn btn-danger" id="btnDeleteAllBook" disabled>
-                <i class="fa-solid fa-trash"></i> Eliminar Todo
-            </button>
+                <button class="btn btn-danger" id="btnDeleteAllBook" disabled>
+                    <i class="fa-solid fa-trash"></i> Eliminar Todo
+                </button>
+            <?php endif; ?>
             <button class="btn btn-secondary" data-bs-target="#add_admin_modal" data-bs-toggle="modal">
                 <i class="fa-solid fa-plus"></i> Añadir Libro
             </button>
@@ -47,11 +49,10 @@ require __DIR__ . '/../components/editLibro.php';
         <div class="">
             <!-- ./../app/src/libros/dasboard.php -->
             <form class="d-flex " method="post" action="" id="formSearchBook">
-                <div class="form-floating mb-3">
+                <div class="input-group mb-3">
+                    <button type="submit" class="btn btn-primary input-group-text"><i class="fa-solid fa-magnifying-glass"></i></button>
                     <input type="text" class="form-control" name="bookName" id="searchBook" placeholder="Enter a Boook Name">
-                    <label for="searchBook">Search Book</label>
                 </div>
-                <button type="submit" class="btn btn-primary mb-3"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
         </div>
     </div>
@@ -80,17 +81,30 @@ require __DIR__ . '/../components/editLibro.php';
                                 id="checbox<?php echo $arrayBook['Id'] ?>                                                                                                                                ?>">
                         </th>
                         <td class="container-acciones">
-                            <!-- Edit button that opens the modal and passes the user ID -->
-                            <span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Edit">
-                                <buttom class=" btn btn-primary "
+                            <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
+                                <!-- Edit button that opens the modal and passes the user ID -->
+                                <span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Edit">
+                                    <buttom class=" btn btn-primary "
+                                        data-libro-id="<?php echo $arrayBook['Id'];
+                                                        ?>"
+                                        data-bs-target="#edit_libro"
+                                        id="btnEditBook"
+                                        data-bs-toggle="modal">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </buttom>
+                                </span>
+
+
+                                <button
+                                    class="btn btn-danger" data-bs-toggle="tooltip"
+                                    data-bs-placement="right" data-bs-title="Delete"
+                                    id="btnDeleteBook"
                                     data-libro-id="<?php echo $arrayBook['Id'];
                                                     ?>"
-                                    data-bs-target="#edit_libro"
-                                    id="btnEditBook"
-                                    data-bs-toggle="modal">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </buttom>
-                            </span>
+                                    data-bs-toggle="tooltip">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            <?php endif; ?>
 
                             <button
                                 class="btn btn-info" data-bs-toggle="tooltip"
@@ -101,17 +115,6 @@ require __DIR__ . '/../components/editLibro.php';
                                 data-bs-toggle="tooltip">
                                 <i class="fa-solid fa-star"></i>
                             </button>
-
-                            <button
-                                class="btn btn-danger" data-bs-toggle="tooltip"
-                                data-bs-placement="right" data-bs-title="Delete"
-                                id="btnDeleteBook"
-                                data-libro-id="<?php echo $arrayBook['Id'];
-                                                ?>"
-                                data-bs-toggle="tooltip">
-                                <i class="fa fa-trash"></i>
-                            </button>
-
                         </td>
 
                         <td><?php echo $arrayBook['GoogleBooksId'] ?></td>
@@ -228,7 +231,8 @@ require __DIR__ . '/../components/editLibro.php';
             });
         });
     });
-    
+
+
     document.getElementById('formSearchBook').addEventListener('submit', (e) => {
         e.preventDefault(); // Previene el envío predeterminado del formulario
 

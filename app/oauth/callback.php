@@ -1,9 +1,8 @@
 <?php
 session_start();
 require_once 'GoogleOAuth.php';
-require_once __DIR__ . '/../../src/config.php';  // Ruta al archivo config.php
-require_once __DIR__ . '/../controllers/AuthController.php';
-
+require_once __DIR__ . './../../src/config.php';  // Ruta al archivo config.php
+require_once __DIR__ . './../controllers/AuthController.php';
 // Cargar el archivo .env desde la raíz del proyecto
 loadEnv(__DIR__ . '/../../public/.env');  // Corregimos la ruta para subir al directorio raíz
 
@@ -31,13 +30,20 @@ if (isset($_GET['code'])) {
 } else {
     echo "No se recibió el código de autorización.";
 }
-<<<<<<< HEAD
+
+$_SESSION['userId'] = $user_data['id'];
+// var_dump($user_data);
+// die();
+
 $email = $user_data['email'];
-$nombre= $user_data['name'];
-$google_id =$user_data['id'];
+$nombre = $user_data['name'];
+$google_id = $user_data['id'];
+
 
 $auth = new AuthController();
 $auth->register($email, $nombre, $google_id);
-=======
-?>
->>>>>>> 86b8abaea684b9ebf3d16f8e21d3c4200388027c
+
+$_SESSION['sesion'] = true;
+
+header("location:http://localhost/PARCIALES/PARCIAL_4_DSW7/public/index.php");
+exit();
