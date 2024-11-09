@@ -6,7 +6,7 @@ class Database {
 
     public function __construct() {
         // Cargar el archivo de configuración
-        require_once __DIR__ . '/../../../config/config.php';
+        require_once __DIR__ . '/../../../src/config.php';
         loadEnv(__DIR__ . '/../../../public/.env');
 
         // Conectar a la base de datos
