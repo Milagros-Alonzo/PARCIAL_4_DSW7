@@ -7,8 +7,8 @@ require __DIR__ . '/../components/editLibro.php';
 ?>
 <div class=" body  " id="container-libros">
     <div class="header-dasoard bg-secondary-subtle">
-        <span class="d-flex gap-3">
-            <p class="flex-1">Dasboard</p>
+        <span class="  container-header  d-flex gap-3">
+            <p class="title">Dasboard</p>
             <span class="d-flex gap-3">
                 <p>Usuario : </p>
                 <div class="dropdown">
@@ -16,13 +16,11 @@ require __DIR__ . '/../components/editLibro.php';
                         <i class="fa-solid fa-user"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                        <li><a class="dropdown-item active" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item active" href="#">Perfil</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        <li><a class="dropdown-item" href="#">Cerrar Sesion</a></li>
                     </ul>
                 </div>
             </span>
@@ -30,7 +28,7 @@ require __DIR__ . '/../components/editLibro.php';
     </div>
     <div class="container-eventos">
 
-        <div class="eventos d-flex p-2 ">
+        <div class="eventos d-flex gap-3 p-2 ">
             <span>
                 <input type="checkbox" class="btn-check" id="btnCheckAllBooks" autocomplete="off">
                 <label class="btn btn-primary" for="btnCheckAllBooks">Seleccionar Todo</label>
@@ -64,12 +62,11 @@ require __DIR__ . '/../components/editLibro.php';
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">eventos</th>
-                    <th scope="col">User Id</th>
                     <th scope="col">Google Books Id</th>
                     <th scope="col">Titulo</th>
                     <th scope="col">Autor</th>
                     <th scope="col">Imagen Portada</th>
-                    <th scope="col">Reseña Personal</th>
+                    <th scope="col">Descripcion</th>
                     <th scope="col">Fecha Guardado</th>
                 </tr>
             </thead>
@@ -117,7 +114,6 @@ require __DIR__ . '/../components/editLibro.php';
 
                         </td>
 
-                        <td><?php echo $arrayBook['UserId'] ?></td>
                         <td><?php echo $arrayBook['GoogleBooksId'] ?></td>
                         <td><?php echo $arrayBook['Titulo'] ?></td>
                         <td><?php echo $arrayBook['Autor'] ?></td>
@@ -169,9 +165,11 @@ require __DIR__ . '/../components/editLibro.php';
 
 
 <script>
-    const btnCheckAll = document.getElementById('btn-check_all');
-    const btnDeleteAllUser = document.getElementById('btn_delete_all_user');
-    const btnDeleteUser = document.getElementById('btnDeleteUser');
+    const btnCheckAll = document.getElementById('btnCheckAllBooks');
+    const btnDeleteAllUser = document.getElementById('btnDeleteAllBook');
+    const btnDeletBook = document.getElementById('btnDeletBook');
+    const btnFavoriteListBook = document.getElementById('btnListFavoriteBook');
+    const btnFavoriteBook = document.getElementById('btnFavoriteBook');
     btnCheckAll.onclick = function() {
         var checkboxes = document.querySelectorAll('.form-check-input');
         for (var checkbox of checkboxes) {
