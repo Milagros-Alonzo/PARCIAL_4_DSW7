@@ -21,7 +21,11 @@ MYSQL_URL=mysql://root:ZOskAlesufLbKVbvYFmyZelfBHzROMs@mysql.railway.internal:56
 
 CLIENT_ID=630106112620-h64as6qg7ks9tnbdjhi8n0u7nu140t90.apps.googleusercontent.com
 CLIENT_SECRET=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
-REDIRECT_URI=
+
+
+             #http://localhost/PARCIALES/PARCIAL_4_DSW7/app/oauth/callback.php
+             #http://localhost/PARCIALES/PARCIAL_4_DSW7/app/oauth/callback.php
+REDIRECT_URI=http://localhost/PARCIALES/PARCIAL_4_DSW7/app/oauth/callback.php
 SCOPE=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile
 
 # Otras variables de entorno que puedas necesitar

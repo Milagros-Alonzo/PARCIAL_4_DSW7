@@ -64,4 +64,5 @@ class GoogleOAuth {
         return $response;
     }
 }
+
 ?>

@@ -1,6 +1,6 @@
 <?php
 // Inicialización de variables
-require_once __DIR__ . '/../../src/config.php';// Incluye el archivo de configuración
+require_once __DIR__ . '/../../src/config.php'; // Incluye el archivo de configuración
 loadEnv(__DIR__ . '/../../public/.env');  // Carga el archivo .env desde la raíz del proyecto
 
 // Obtener las variables de entorno
@@ -18,4 +18,3 @@ $auth_url = "https://accounts.google.com/o/oauth2/auth?"
 
 // Mostrar enlace para iniciar sesión con Google
 echo "<a href='$auth_url'>Iniciar sesión con Google</a>";
-?>

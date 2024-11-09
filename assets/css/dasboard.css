@@ -1,0 +1,7 @@
+/* header dasboard */
+.header-dasoard {
+  padding: 1rem;
+}
+.header-dasoard .container-header .title {
+  flex: 1;
+}
