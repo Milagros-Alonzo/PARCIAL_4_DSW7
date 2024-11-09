@@ -8,27 +8,30 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form id="formUpdateLibro">
-        <div class="modal-body">
-          <input type="hidden" id="user_id" name="user_id">
+      <div class="modal-body">
           <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa el nombre" required>
+            <label for="GoogleBooksId">Google Books Id</label>
+            <input type="text" class="form-control" id="GoogleBooksId" name="GoogleBooksId" placeholder="Ingresa el GoogleBooksId" required>
           </div>
           <div class="form-group">
-            <label for="apellido">Apellido</label>
-            <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Ingresa el apellido" required>
+            <label for="Titulo">Titulo</label>
+            <input type="text" class="form-control" id="Titulo" name="Titulo" placeholder="Ingresa el Titulo" required>
           </div>
           <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa el e-mail" required>
+            <label for="Autor">Autor</label>
+            <input type="text" class="form-control" id="Autor" name="Autor" placeholder="Ingresa el autor" required>
           </div>
           <div class="form-group">
-            <label for="telefono">Teléfono</label>
-            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Ingresa el teléfono" required>
+            <label for="ImagenPortada">ImagenPortada</label>
+            <input type="text" class="form-control" id="ImagenPortada" name="ImagenPortada" placeholder="Ingresa el imagenPortada" required>
           </div>
           <div class="form-group">
-            <label for="direccion">Dirección</label>
-            <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingresa la dirección" required>
+            <label for="ReseñaPersonal">Reseña Personal</label>
+            <input type="text" class="form-control" id="ReseñaPersonal" name="ReseñaPersonal" placeholder="Ingresa la reseña Personal" required>
+          </div>
+          <div class="form-group">
+            <label for="FechaGuardado">Fecha Guardado</label>
+            <input type="text" class="form-control" id="FechaGuardado" name="FechaGuardado" placeholder="Ingresa la fecha Guardado" required>
           </div>
         </div>
         <div class="modal-footer">

@@ -1,31 +1,64 @@
 <?php
-require __DIR__ . '/../../src/libros/dasboard_libros.php';
+require __DIR__ . '/../../src/libros/dasboard.php';
 require __DIR__ . '/../components/addLibro.php';
 require __DIR__ . '/../components/editLibro.php';
 require __DIR__ . '/../components/editLibro.php';
 
 ?>
-<div class=" body container-fluid justify-content-center " id="container-libros">
-    <div class="header-admin">
-
-        <h2> Dasboard de Libros Biblioteca</h2>
+<div class=" body  " id="container-libros">
+    <div class="header-dasoard bg-secondary-subtle">
+        <span class="d-flex gap-3">
+            <p class="flex-1">Dasboard</p>
+            <span class="d-flex gap-3">
+                <p>Usuario : </p>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item active" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Separated link</a></li>
+                    </ul>
+                </div>
+            </span>
+        </span>
     </div>
-    <div class="container-eventos d-flex">
+    <div class="container-eventos">
 
-        <div class="eventos d-flex p-2 gap-3">
+        <div class="eventos d-flex p-2 ">
             <span>
-                <input type="checkbox" class="btn-check" id="btn-check_all" autocomplete="off">
-                <label class="btn btn-primary" for="btn-check_all">Seleccionar Todo</label>
+                <input type="checkbox" class="btn-check" id="btnCheckAllBooks" autocomplete="off">
+                <label class="btn btn-primary" for="btnCheckAllBooks">Seleccionar Todo</label>
             </span>
 
-            <button class="btn btn-danger" id="btn_delete_all_user" disabled> <i class="fa-solid fa-trash"></i> Eliminar Todo</button>
+            <button class="btn btn-danger" id="btnDeleteAllBook" disabled>
+                <i class="fa-solid fa-trash"></i> Eliminar Todo
+            </button>
             <button class="btn btn-secondary" data-bs-target="#add_admin_modal" data-bs-toggle="modal">
                 <i class="fa-solid fa-plus"></i> Añadir Libro
             </button>
+            <button class="btn btn-secondary" id="btnListFavoriteBook">
+                <i class="fa-solid fa-star"></i> Libro Favoritos
+            </button>
+        </div>
+        <div class="">
+            <!-- ./../app/src/libros/dasboard.php -->
+            <form class="d-flex " method="post" action="" id="formSearchBook">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="bookName" id="searchBook" placeholder="Enter a Boook Name">
+                    <label for="searchBook">Search Book</label>
+                </div>
+                <button type="submit" class="btn btn-primary mb-3"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
         </div>
     </div>
     <!-- table  -->
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto  container-fluid justify-content-center">
         <table class="table table-light table-hover">
             <thead>
                 <tr>
@@ -45,46 +78,56 @@ require __DIR__ . '/../components/editLibro.php';
                     <tr>
                         <th scope='row'>
                             <input class="form-check-input"
-                                type="checkbox" 
-                                value="<?php echo $$arrayBook['Id']?>"
-                                id="checbox<?php echo $$arrayBook['Id'] ?>                                                                                                                                ?>">
+                                type="checkbox"
+                                value="<?php echo $arrayBook['Id'] ?>"
+                                id="checbox<?php echo $arrayBook['Id'] ?>                                                                                                                                ?>">
                         </th>
                         <td class="container-acciones">
                             <!-- Edit button that opens the modal and passes the user ID -->
                             <span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Edit">
                                 <buttom class=" btn btn-primary "
-                                    data-libro-id="<?php echo $$arrayBook['Id'];
+                                    data-libro-id="<?php echo $arrayBook['Id'];
                                                     ?>"
-                                    data-bs-target="#edit_admin_modal"
-                                    id="btn_edit_user"
+                                    data-bs-target="#edit_libro"
+                                    id="btnEditBook"
                                     data-bs-toggle="modal">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </buttom>
                             </span>
 
                             <button
+                                class="btn btn-info" data-bs-toggle="tooltip"
+                                data-bs-placement="right" data-bs-title="Favorites"
+                                id="btnFavoriteBook"
+                                data-libro-id="<?php echo $arrayBook['Id'];
+                                                ?>"
+                                data-bs-toggle="tooltip">
+                                <i class="fa-solid fa-star"></i>
+                            </button>
+
+                            <button
                                 class="btn btn-danger" data-bs-toggle="tooltip"
                                 data-bs-placement="right" data-bs-title="Delete"
-                                id="btnDeleteUser"
-                                data-libro-id="<?php echo $$arrayBook['Id']; 
+                                id="btnDeleteBook"
+                                data-libro-id="<?php echo $arrayBook['Id'];
                                                 ?>"
-                                class="btn btn-danger" data-bs-toggle="tooltip">
+                                data-bs-toggle="tooltip">
                                 <i class="fa fa-trash"></i>
                             </button>
 
                         </td>
 
-                        <td><?php echo $arrayBook['UserId']?></td>
-                        <td><?php echo $arrayBook['GoogleBooksId']?></td>
-                        <td><?php echo $arrayBook['Titulo']?></td>
-                        <td><?php echo $arrayBook['Autor']?></td>
+                        <td><?php echo $arrayBook['UserId'] ?></td>
+                        <td><?php echo $arrayBook['GoogleBooksId'] ?></td>
+                        <td><?php echo $arrayBook['Titulo'] ?></td>
+                        <td><?php echo $arrayBook['Autor'] ?></td>
                         <td>
                             <span>
-                                <img class='img-fluid' src="<?php echo $arrayBook['ImagenPortada']?>" alt="<?php echo $arrayBook['Titulo']?>">
+                                <img class='img-fluid' src="<?php echo $arrayBook['ImagenPortada'] ?>" alt="<?php echo $arrayBook['Titulo'] ?>">
                             </span>
                         </td>
-                        <td><?php echo $arrayBook['ReseñaPersonal']?></td>
-                        <td><?php echo $arrayBook['FechaGuardado']?></td>
+                        <td><?php echo $arrayBook['ReseñaPersonal'] ?></td>
+                        <td><?php echo $arrayBook['FechaGuardado'] ?></td>
 
 
                     </tr>
@@ -139,7 +182,6 @@ require __DIR__ . '/../components/editLibro.php';
         btnDeleteAllUser.disabled = status;
     }
 
-
     document.addEventListener('DOMContentLoaded', function() {
         const btnEditUser = document.querySelectorAll('#btn_edit_user'); // Cambia a querySelectorAll para manejar múltiples botones
 
@@ -156,7 +198,7 @@ require __DIR__ . '/../components/editLibro.php';
 
                 // Crear un objeto FormData a partir del formulario
                 const formData = new FormData();
-                formData.append("action", "getDataUser"); // Agregar el campo 'action' con el valor 'editUser '
+                formData.append("action", "getDataLiboEdit"); // Agregar el campo 'action' con el valor 'editUser '
                 formData.append("libroId", libroId); // Agregar el campo 'libroId'
 
                 fetch('./src/admin/usuarios.php', {
@@ -188,27 +230,16 @@ require __DIR__ . '/../components/editLibro.php';
             });
         });
     });
-    btnDeleteUser.addEventListener('click', (e) => {
-        const libroId = btnDeleteUser.getAttribute('data-libro-id'); // Obtiene el `libroId` del atributo `data-libro-id`
+    
+    document.getElementById('formSearchBook').addEventListener('submit', (e) => {
+        e.preventDefault(); // Previene el envío predeterminado del formulario
 
-        // Verifica que `libroId` no esté vacío
-        if (!libroId) {
-            console.error('Error: el ID de usuario no está definido.');
-            alert('Error: el ID de usuario no está definido.');
-            return;
-        }
-        // Crear un objeto FormData a partir del formulario
-        const formData = new FormData();
-        formData.append("action", "deleteUser"); // Agregar el campo 'action' con el valor 'addUser'
-        formData.append("libroId", libroId); // Agregar el campo 'action' con el valor 'addUser'
+        const formData = new FormData(document.getElementById('formSearchBook'));
+        formData.append("action", "SearchBook");
 
-        fetch('./src/admin/usuarios.php', {
+        fetch('http://localhost/DESARROLLO_VII_LEANDRO_RODRIGUEZ/PARCIALES/PARCIAL_4/PARCIAL_4_DSW7/app/src/libros/dasboard.php', {
                 method: 'POST',
                 body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert(data);
             })
             .catch(error => console.error('Error:', error));
     });
@@ -228,7 +259,6 @@ require __DIR__ . '/../components/editLibro.php';
             })
             .catch(error => console.error('Error:', error));
     });
-
 
     document.addEventListener('DOMContentLoaded', function() {
         const checkboxes = document.querySelectorAll('.form-check-input');
