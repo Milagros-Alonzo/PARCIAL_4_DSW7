@@ -1,145 +1,64 @@
 <?php
-
-
-$books_array = [
-    [
-        'Id' => 1,
-        'UserId' => 101,
-        'GoogleBooksId' => 'Bk1',
-        'Titulo' => 'The Great Gatsby',
-        'Autor' => 'F. Scott Fitzgerald',
-        'ImagenPortada' => 'https://covers.openlibrary.org/b/id/7222246-L.jpg',
-        'ReseñaPersonal' => 'A fascinating look into the American dream.',
-        'FechaGuardado' => '2024-01-01',
-    ],
-    [
-        'Id' => 2,
-        'UserId' => 102,
-        'GoogleBooksId' => 'Bk2',
-        'Titulo' => 'To Kill a Mockingbird',
-        'Autor' => 'Harper Lee',
-        'ImagenPortada' => 'https://covers.openlibrary.org/b/id/8228691-L.jpg',
-        'ReseñaPersonal' => 'A profound story of justice and innocence.',
-        'FechaGuardado' => '2024-02-01',
-    ],
-    [
-        'Id' => 3,
-        'UserId' => 103,
-        'GoogleBooksId' => 'Bk3',
-        'Titulo' => '1984',
-        'Autor' => 'George Orwell',
-        'ImagenPortada' => 'https://covers.openlibrary.org/b/id/7222246-L.jpg',
-        'ReseñaPersonal' => 'A chilling dystopian novel that remains relevant.',
-        'FechaGuardado' => '2024-03-01',
-    ],
-    [
-        'Id' => 4,
-        'UserId' => 104,
-        'GoogleBooksId' => 'Bk4',
-        'Titulo' => 'Pride and Prejudice',
-        'Autor' => 'Jane Austen',
-        'ImagenPortada' => 'https://covers.openlibrary.org/b/id/8081536-L.jpg',
-        'ReseñaPersonal' => 'A delightful and insightful story of love and society.',
-        'FechaGuardado' => '2024-04-01',
-    ],
-    [
-        'Id' => 5,
-        'UserId' => 105,
-        'GoogleBooksId' => 'Bk5',
-        'Titulo' => 'The Catcher in the Rye',
-        'Autor' => 'J.D. Salinger',
-        'ImagenPortada' => 'https://covers.openlibrary.org/b/id/8231851-L.jpg',
-        'ReseñaPersonal' => 'A raw and honest story of adolescent struggles.',
-        'FechaGuardado' => '2024-05-01',
-    ],
-    [
-        'Id' => 6,
-        'UserId' => 106,
-        'GoogleBooksId' => 'Bk6',
-        'Titulo' => 'Moby Dick',
-        'Autor' => 'Herman Melville',
-        'ImagenPortada' => 'https://covers.openlibrary.org/b/id/7222246-L.jpg',
-        'ReseñaPersonal' => 'An epic tale of adventure and obsession.',
-        'FechaGuardado' => '2024-06-01',
-    ],
-    [
-        'Id' => 7,
-        'UserId' => 107,
-        'GoogleBooksId' => 'Bk7',
-        'Titulo' => 'War and Peace',
-        'Autor' => 'Leo Tolstoy',
-        'ImagenPortada' => 'https://covers.openlibrary.org/b/id/7233862-L.jpg',
-        'ReseñaPersonal' => 'A monumental work of history and human experience.',
-        'FechaGuardado' => '2024-07-01',
-    ],
-    [
-        'Id' => 8,
-        'UserId' => 108,
-        'GoogleBooksId' => 'Bk8',
-        'Titulo' => 'The Hobbit',
-        'Autor' => 'J.R.R. Tolkien',
-        'ImagenPortada' => 'https://covers.openlibrary.org/b/id/7984916-L.jpg',
-        'ReseñaPersonal' => 'A delightful fantasy adventure.',
-        'FechaGuardado' => '2024-08-01',
-    ],
-    [
-        'Id' => 9,
-        'UserId' => 109,
-        'GoogleBooksId' => 'Bk9',
-        'Titulo' => 'The Odyssey',
-        'Autor' => 'Homer',
-        'ImagenPortada' => 'https://covers.openlibrary.org/b/id/8235233-L.jpg',
-        'ReseñaPersonal' => 'A timeless journey of heroism and resilience.',
-        'FechaGuardado' => '2024-09-01',
-    ],
-    [
-        'Id' => 10,
-        'UserId' => 110,
-        'GoogleBooksId' => 'Bk10',
-        'Titulo' => 'Brave New World',
-        'Autor' => 'Aldous Huxley',
-        'ImagenPortada' => 'https://covers.openlibrary.org/b/id/7222246-L.jpg',
-        'ReseñaPersonal' => 'A thought-provoking look at a utopian future.',
-        'FechaGuardado' => '2024-10-01',
-    ]
-];
-
-
-// Configuración de la paginación
-$itemsPorPagina = 3;
-$totalItems = count($books_array);
-$totalPaginas = ceil($totalItems / $itemsPorPagina);
-
-// Obtener el número de página actual desde la URL
-$paginaActual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-$paginaActual = max(1, min($totalPaginas, $paginaActual));
-
-// Obtener el subconjunto de datos para la página actual
-$inicio = ($paginaActual - 1) * $itemsPorPagina;
-$arrayDatosPorPagina = array_slice($books_array, $inicio, $itemsPorPagina);
+require __DIR__ . '/../../src/libros/dasboard.php';
+require __DIR__ . '/../components/addLibro.php';
+require __DIR__ . '/../components/editLibro.php';
+require __DIR__ . '/../components/editLibro.php';
 
 ?>
-<div class=" body container-fluid justify-content-center " id="container-libros">
-    <div class="header-admin">
-
-        <h2> Dasboard de Libros Biblioteca</h2>
+<div class=" body  " id="container-libros">
+    <div class="header-dasoard bg-secondary-subtle">
+        <span class="d-flex gap-3">
+            <p class="flex-1">Dasboard</p>
+            <span class="d-flex gap-3">
+                <p>Usuario : </p>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item active" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Separated link</a></li>
+                    </ul>
+                </div>
+            </span>
+        </span>
     </div>
-    <div class="container-eventos d-flex">
+    <div class="container-eventos">
 
-        <div class="eventos d-flex p-2 gap-3">
+        <div class="eventos d-flex p-2 ">
             <span>
-                <input type="checkbox" class="btn-check" id="btn-check_all" autocomplete="off">
-                <label class="btn btn-primary" for="btn-check_all">Seleccionar Todo</label>
+                <input type="checkbox" class="btn-check" id="btnCheckAllBooks" autocomplete="off">
+                <label class="btn btn-primary" for="btnCheckAllBooks">Seleccionar Todo</label>
             </span>
 
-            <button class="btn btn-danger" id="btn_delete_all_user" disabled> <i class="fa-solid fa-trash"></i> Eliminar Todo</button>
+            <button class="btn btn-danger" id="btnDeleteAllBook" disabled>
+                <i class="fa-solid fa-trash"></i> Eliminar Todo
+            </button>
             <button class="btn btn-secondary" data-bs-target="#add_admin_modal" data-bs-toggle="modal">
                 <i class="fa-solid fa-plus"></i> Añadir Libro
             </button>
+            <button class="btn btn-secondary" id="btnListFavoriteBook">
+                <i class="fa-solid fa-star"></i> Libro Favoritos
+            </button>
+        </div>
+        <div class="">
+            <!-- ./../app/src/libros/dasboard.php -->
+            <form class="d-flex " method="post" action="" id="formSearchBook">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="bookName" id="searchBook" placeholder="Enter a Boook Name">
+                    <label for="searchBook">Search Book</label>
+                </div>
+                <button type="submit" class="btn btn-primary mb-3"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
         </div>
     </div>
     <!-- table  -->
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto  container-fluid justify-content-center">
         <table class="table table-light table-hover">
             <thead>
                 <tr>
@@ -159,46 +78,56 @@ $arrayDatosPorPagina = array_slice($books_array, $inicio, $itemsPorPagina);
                     <tr>
                         <th scope='row'>
                             <input class="form-check-input"
-                                type="checkbox" 
-                                value="<?php echo $$arrayBook['Id']?>"
-                                id="checbox<?php echo $$arrayBook['Id'] ?>                                                                                                                                ?>">
+                                type="checkbox"
+                                value="<?php echo $arrayBook['Id'] ?>"
+                                id="checbox<?php echo $arrayBook['Id'] ?>                                                                                                                                ?>">
                         </th>
                         <td class="container-acciones">
                             <!-- Edit button that opens the modal and passes the user ID -->
                             <span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Edit">
                                 <buttom class=" btn btn-primary "
-                                    data-libro-id="<?php echo $$arrayBook['Id'];
+                                    data-libro-id="<?php echo $arrayBook['Id'];
                                                     ?>"
-                                    data-bs-target="#edit_admin_modal"
-                                    id="btn_edit_user"
+                                    data-bs-target="#edit_libro"
+                                    id="btnEditBook"
                                     data-bs-toggle="modal">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </buttom>
                             </span>
 
                             <button
+                                class="btn btn-info" data-bs-toggle="tooltip"
+                                data-bs-placement="right" data-bs-title="Favorites"
+                                id="btnFavoriteBook"
+                                data-libro-id="<?php echo $arrayBook['Id'];
+                                                ?>"
+                                data-bs-toggle="tooltip">
+                                <i class="fa-solid fa-star"></i>
+                            </button>
+
+                            <button
                                 class="btn btn-danger" data-bs-toggle="tooltip"
                                 data-bs-placement="right" data-bs-title="Delete"
-                                id="btnDeleteUser"
-                                data-libro-id="<?php echo $$arrayBook['Id']; 
+                                id="btnDeleteBook"
+                                data-libro-id="<?php echo $arrayBook['Id'];
                                                 ?>"
-                                class="btn btn-danger" data-bs-toggle="tooltip">
+                                data-bs-toggle="tooltip">
                                 <i class="fa fa-trash"></i>
                             </button>
 
                         </td>
 
-                        <td><?php echo $arrayBook['UserId']?></td>
-                        <td><?php echo $arrayBook['GoogleBooksId']?></td>
-                        <td><?php echo $arrayBook['Titulo']?></td>
-                        <td><?php echo $arrayBook['Autor']?></td>
+                        <td><?php echo $arrayBook['UserId'] ?></td>
+                        <td><?php echo $arrayBook['GoogleBooksId'] ?></td>
+                        <td><?php echo $arrayBook['Titulo'] ?></td>
+                        <td><?php echo $arrayBook['Autor'] ?></td>
                         <td>
                             <span>
-                                <img class='img-fluid' src="<?php echo $arrayBook['ImagenPortada']?>" alt="<?php echo $arrayBook['Titulo']?>">
+                                <img class='img-fluid' src="<?php echo $arrayBook['ImagenPortada'] ?>" alt="<?php echo $arrayBook['Titulo'] ?>">
                             </span>
                         </td>
-                        <td><?php echo $arrayBook['ReseñaPersonal']?></td>
-                        <td><?php echo $arrayBook['FechaGuardado']?></td>
+                        <td><?php echo $arrayBook['ReseñaPersonal'] ?></td>
+                        <td><?php echo $arrayBook['FechaGuardado'] ?></td>
 
 
                     </tr>
@@ -253,7 +182,6 @@ $arrayDatosPorPagina = array_slice($books_array, $inicio, $itemsPorPagina);
         btnDeleteAllUser.disabled = status;
     }
 
-
     document.addEventListener('DOMContentLoaded', function() {
         const btnEditUser = document.querySelectorAll('#btn_edit_user'); // Cambia a querySelectorAll para manejar múltiples botones
 
@@ -270,7 +198,7 @@ $arrayDatosPorPagina = array_slice($books_array, $inicio, $itemsPorPagina);
 
                 // Crear un objeto FormData a partir del formulario
                 const formData = new FormData();
-                formData.append("action", "getDataUser"); // Agregar el campo 'action' con el valor 'editUser '
+                formData.append("action", "getDataLiboEdit"); // Agregar el campo 'action' con el valor 'editUser '
                 formData.append("libroId", libroId); // Agregar el campo 'libroId'
 
                 fetch('./src/admin/usuarios.php', {
@@ -302,27 +230,16 @@ $arrayDatosPorPagina = array_slice($books_array, $inicio, $itemsPorPagina);
             });
         });
     });
-    btnDeleteUser.addEventListener('click', (e) => {
-        const libroId = btnDeleteUser.getAttribute('data-libro-id'); // Obtiene el `libroId` del atributo `data-libro-id`
+    
+    document.getElementById('formSearchBook').addEventListener('submit', (e) => {
+        e.preventDefault(); // Previene el envío predeterminado del formulario
 
-        // Verifica que `libroId` no esté vacío
-        if (!libroId) {
-            console.error('Error: el ID de usuario no está definido.');
-            alert('Error: el ID de usuario no está definido.');
-            return;
-        }
-        // Crear un objeto FormData a partir del formulario
-        const formData = new FormData();
-        formData.append("action", "deleteUser"); // Agregar el campo 'action' con el valor 'addUser'
-        formData.append("libroId", libroId); // Agregar el campo 'action' con el valor 'addUser'
+        const formData = new FormData(document.getElementById('formSearchBook'));
+        formData.append("action", "SearchBook");
 
-        fetch('./src/admin/usuarios.php', {
+        fetch('http://localhost/DESARROLLO_VII_LEANDRO_RODRIGUEZ/PARCIALES/PARCIAL_4/PARCIAL_4_DSW7/app/src/libros/dasboard.php', {
                 method: 'POST',
                 body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert(data);
             })
             .catch(error => console.error('Error:', error));
     });
@@ -342,7 +259,6 @@ $arrayDatosPorPagina = array_slice($books_array, $inicio, $itemsPorPagina);
             })
             .catch(error => console.error('Error:', error));
     });
-
 
     document.addEventListener('DOMContentLoaded', function() {
         const checkboxes = document.querySelectorAll('.form-check-input');
