@@ -1,10 +1,6 @@
 <?php
 // Inicialización de variables
-<<<<<<< HEAD
-require_once __DIR__ . '/../../config/config.php';// Incluye el archivo de configuración
-=======
 require_once __DIR__ . '/../../src/config.php';// Incluye el archivo de configuración
->>>>>>> 2f23a7bc328f41b0f56059eac88060d12c7bf710
 loadEnv(__DIR__ . '/../../public/.env');  // Carga el archivo .env desde la raíz del proyecto
 
 // Obtener las variables de entorno

@@ -4,31 +4,19 @@
 // Incluir el modelo de libro
 require_once 'app/models/BookModel.php';
 // Incluir la función de conexión a la base de datos
-<<<<<<< HEAD
-require_once '../config/database.php';
-=======
 require_once __DIR__ . '/../src/database/database.php';
->>>>>>> 2f23a7bc328f41b0f56059eac88060d12c7bf710
 
 class BookController {
 
     private $bookModel;
-<<<<<<< HEAD
-=======
     private $db;
->>>>>>> 2f23a7bc328f41b0f56059eac88060d12c7bf710
 
     // Constructor: inicializa el modelo de libros con la conexión a la base de datos
     public function __construct() {
         // Obtener la conexión a la base de datos
-<<<<<<< HEAD
-        $db = getDBConnection();
-        $this->bookModel = new BookModel($db); // Pasar la conexión a BookModel
-=======
         $database = new Database();
         $this->db = $database->getConnection();
         $this->bookModel = new BookModel($this->db); // Pasar la conexión a BookModel
->>>>>>> 2f23a7bc328f41b0f56059eac88060d12c7bf710
     }
 
     // Guardar un libro en la base de datos

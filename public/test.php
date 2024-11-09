@@ -1,117 +1,42 @@
-<?php
+# URL base de la aplicación
+BASE_URL=http://localhost
 
-function fetchBooks($query)
-{
-    // Tu clave API
-    $apiKey = "AIzaSyBlL0dWLqcDoU7ZQ6MqL0SoLLm_OqaWkMU";
+# Configuración de la base de datos
+#DB_HOST=junction.proxy.rlwy.net
+#DB_NAME=railway
+#DB_USER=root
+#DB_PASS=sZUdFDLzZhlOjOlIAbYlyrEYiVjFwkRF
+#DB_PORT=50528
+#MYSQL_URL=mysql://root:ZOskAlesufLbKVbvYFmyZelfBHzROMs@mysql.railway.internal:56051/railway
 
-    // Formateamos la URL de la solicitud con la consulta y la clave API
-    $url = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($query) . "&key=" . $apiKey;
+# Configuración de la base de datos
+DB_HOST=autorack.proxy.rlwy.net
+DB_NAME=railway
+DB_USER=root
+DB_PASS=ZOskAlesufLbKVbvYFmyZelfBHzROMsG
+DB_PORT=56051
+MYSQL_URL=mysql://root:ZOskAlesufLbKVbvYFmyZelfBHzROMs@mysql.railway.internal:56051/railway
+#//root:ZOskAlesufLbKVbvYFmyZelfBHzROMsG@autorack.proxy.rlwy.net:56051/railway
+# Configurar google oauth
 
-    // Inicializamos cURL
-    $ch = curl_init();
+CLIENT_ID=630106112620-h64as6qg7ks9tnbdjhi8n0u7nu140t90.apps.googleusercontent.com
+CLIENT_SECRET=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
+REDIRECT_URI=
+SCOPE=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile
 
-    // Configuramos las opciones de cURL
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    // Ejecutamos la solicitud
-    $response = curl_exec($ch);
-
-    // Verificamos si hubo un error
-    if (curl_errno($ch)) {
-        echo 'Error:' . curl_error($ch);
-        return null;
-    }
-
-    // Cerramos cURL
-    curl_close($ch);
-
-    // Decodificamos el JSON
-    $data = json_decode($response, true);
-
-    // Retornamos los resultados
-    return $data;
-}
-
-$books_array = array();
-$books = fetchBooks('love');
-// Ejemplo de uso
-
-/*
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    if (isset($_POST['bookName'])) {
-        if (!empty($_POST['bookName'])) {
-            $query = $_POST['bookName'];
-            $books = fetchBooks($query);
-
-            if ($books && isset($books['items'])) {
-                $books_array = []; // Initialize array for storing books
-                foreach ($books['items'] as $book) {
-                    $books_array[] = array(
-                        'Id' => $book['id'],
-                        'UserId' => 00,
-                        'GoogleBooksId' => $book['id'],
-                        'Titulo' => $book['volumeInfo']['title'],
-                        'Autor' => implode(", ", $book['volumeInfo']['authors'] ?? []),
-                        'ImagenPortada' => $book['volumeInfo']['imageLinks']['thumbnail'] ?? "",
-                        'ReseñaPersonal' => $book['volumeInfo']['description'] ?? "No disponible",
-                        'FechaGuardado' => $book['volumeInfo']['publishedDate'] ?? "",
-                    );
-                }
-                header('Content-Type: application/json');
-                echo json_encode($books_array);
-            } else {
-                header('Content-Type: application/json');
-                echo json_encode(['error' => 'No se encontraron resultados.']);
-            }
-        } else {
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'campo vacio']);
-        }
-    }
-    exit;
-}
-*/
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $query = $_POST['bookName'];
-    echo $query;
-    if (isset($_POST['bookName'])) {
-        if (!empty($_POST['bookName'])) {
-            $query = $_POST['bookName'];
-            echo $query;
-            $books = fetchBooks($query);
-        }
-    }
-}
-
-if ($books && isset($books['items'])) {
-    $books_array = []; // Initialize array for storing books
-    foreach ($books['items'] as $book) {
-        $books_array[] = array(
-            'Id' => $book['id'],
-            'UserId' => 00,
-            'GoogleBooksId' => $book['id'],
-            'Titulo' => $book['volumeInfo']['title'],
-            'Autor' => implode(", ", $book['volumeInfo']['authors'] ?? []),
-            'ImagenPortada' => $book['volumeInfo']['imageLinks']['thumbnail'] ?? "",
-            'ReseñaPersonal' => $book['volumeInfo']['description'] ?? "No disponible",
-            'FechaGuardado' => $book['volumeInfo']['publishedDate'] ?? "",
-        );
-    }
-}
+# Otras variables de entorno que puedas necesitar
+APP_ENV=development
+APP_DEBUG=true
 
 
-// Configuración de la paginación
-$itemsPorPagina = 3;
-$totalItems = count($books_array);
-$totalPaginas = ceil($totalItems / $itemsPorPagina);
+# Cadena con espacios
+SITE_NAME=Hotel 
 
-// Obtener el número de página actual desde la URL
-$paginaActual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-$paginaActual = max(1, min($totalPaginas, $paginaActual));
 
-// Obtener el subconjunto de datos para la página actual
-$inicio = ($paginaActual - 1) * $itemsPorPagina;
-$arrayDatosPorPagina = array_slice($books_array, $inicio, $itemsPorPagina);
+CARPETA_IMG = img;
+
+#Datos para el Email
+EMAIL_PASS=fqwx xnkx aexl hxss
+EMAIL_SENDER=e3761144@gmail.com
+EMAIL_HOST=smtp.gmail.com
+
