@@ -31,9 +31,13 @@ if (isset($_GET['code'])) {
 } else {
     echo "No se recibió el código de autorización.";
 }
+<<<<<<< HEAD
 $email = $user_data['email'];
 $nombre= $user_data['name'];
 $google_id =$user_data['id'];
 
 $auth = new AuthController();
 $auth->register($email, $nombre, $google_id);
+=======
+?>
+>>>>>>> 86b8abaea684b9ebf3d16f8e21d3c4200388027c
