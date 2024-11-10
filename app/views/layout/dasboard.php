@@ -1,8 +1,9 @@
 <?php
 require __DIR__ . '/../../src/libros/dasboard.php';
+//require __DIR__ . '/../../src/libros/libros_favoritos.php';
 require __DIR__ . '/../components/addLibro.php';
-require __DIR__ . '/../components/editLibro.php';
-require __DIR__ . '/../components/editLibro.php';
+//require __DIR__ . '/../components/editLibro.php';
+require __DIR__ . '/../components/agregar_favoritos_libro.php';
 
 ?>
 <div class=" body  " id="container-libros">
@@ -34,24 +35,35 @@ require __DIR__ . '/../components/editLibro.php';
                     <input type="checkbox" class="btn-check" id="btnCheckAllBooks" autocomplete="off">
                     <label class="btn btn-primary" for="btnCheckAllBooks">Seleccionar Todo</label>
                 </span>
+                <form id="formDeleteAllBook" method="post">
+                    <button class="btn btn-danger" type="submit" id="btnDeleteAllBook" disabled>
+                        <i class="fa-solid fa-trash"></i> Eliminar Todo
+                    </button>
+                </form>
+                <form id="formSalirFavoriteBook" method="post">
+                    <input type="hidden" name="evento" value="salirFavoritos">
+                    <button type="submit" class="btn btn-secondary" id="btnSalirFavoriteBook">
+                        <i class="fa-solid fa-star"></i> Salir de Favoritos
+                    </button>
+                </form>
 
-                <button class="btn btn-danger" id="btnDeleteAllBook" disabled>
-                    <i class="fa-solid fa-trash"></i> Eliminar Todo
-                </button>
             <?php endif; ?>
-            <button class="btn btn-secondary" data-bs-target="#add_admin_modal" data-bs-toggle="modal">
-                <i class="fa-solid fa-plus"></i> Añadir Libro
-            </button>
-            <button class="btn btn-secondary" id="btnListFavoriteBook">
-                <i class="fa-solid fa-star"></i> Libro Favoritos
-            </button>
+            <?php if (isset($_SESSION['action']) && $_SESSION['action'] != 'ListarFavoritos'): ?>
+                <form id="formListFavoriteBook" method="post">
+                    <input type="hidden" name="evento" value="listarFavoritos">
+                    <button class="btn btn-secondary" type="submit">
+                        <i class="fa-solid fa-star"></i> Libros Favoritos
+                    </button>
+                </form>
+            <?php endif; ?>
         </div>
         <div class="">
             <!-- ./../app/src/libros/dasboard.php -->
             <form class="d-flex " method="post" action="" id="formSearchBook">
                 <div class="input-group mb-3">
                     <button type="submit" class="btn btn-primary input-group-text"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    <input type="text" class="form-control" name="bookName" id="searchBook" placeholder="Enter a Boook Name">
+                    <input type="hidden" name="evento" value="searchBook">
+                    <input type="text" class="form-control" name="bookName" data-book-event="SearchBook" id="searchBook" placeholder="Enter a Boook Name">
                 </div>
             </form>
         </div>
@@ -61,9 +73,10 @@ require __DIR__ . '/../components/editLibro.php';
         <table class="table table-light table-hover">
             <thead>
                 <tr>
-                    <th scope="col"></th>
-                    <th scope="col">eventos</th>
-                    <th scope="col">Google Books Id</th>
+                    <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
+                        <th scope="col"></th>
+                    <?php endif; ?>
+                    <th scope="col">Eventos</th>
                     <th scope="col">Titulo</th>
                     <th scope="col">Autor</th>
                     <th scope="col">Imagen Portada</th>
@@ -74,12 +87,14 @@ require __DIR__ . '/../components/editLibro.php';
             <tbody>
                 <?php foreach ($arrayDatosPorPagina as $arrayBook): ?>
                     <tr>
-                        <th scope='row'>
-                            <input class="form-check-input"
-                                type="checkbox"
-                                value="<?php echo $arrayBook['Id'] ?>"
-                                id="checbox<?php echo $arrayBook['Id'] ?>                                                                                                                                ?>">
-                        </th>
+                        <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
+                            <th scope='row'>
+                                <input class="form-check-input"
+                                    type="checkbox"
+                                    value="<?php echo $arrayBook['Id'] ?>"
+                                    id="checbox<?php echo $arrayBook['Id'] ?>                                                                                                                                ?>">
+                            </th>
+                        <?php endif; ?>
                         <td class="container-acciones">
                             <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
                                 <!-- Edit button that opens the modal and passes the user ID -->
@@ -105,19 +120,22 @@ require __DIR__ . '/../components/editLibro.php';
                                     <i class="fa fa-trash"></i>
                                 </button>
                             <?php endif; ?>
+                            <?php if (isset($_SESSION['action']) && $_SESSION['action'] != 'ListarFavoritos'): ?>
 
-                            <button
-                                class="btn btn-info" data-bs-toggle="tooltip"
-                                data-bs-placement="right" data-bs-title="Favorites"
-                                id="btnFavoriteBook"
-                                data-libro-id="<?php echo $arrayBook['Id'];
-                                                ?>"
-                                data-bs-toggle="tooltip">
-                                <i class="fa-solid fa-star"></i>
-                            </button>
+                                <span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Agregar a Favoritos">
+                                    <buttom class=" btn btn-primary "
+                                        data-libro-id="<?php echo $arrayBook['Id'];
+                                                        ?>"
+                                        data-bs-target="#edit_libro"
+                                        id="btnFavoriteBook"
+                                        data-bs-toggle="modal">
+                                        <i class="fa-solid fa-star"></i>
+                                    </buttom>
+                                </span>
+
+
+                            <?php endif; ?>
                         </td>
-
-                        <td><?php echo $arrayBook['GoogleBooksId'] ?></td>
                         <td><?php echo $arrayBook['Titulo'] ?></td>
                         <td><?php echo $arrayBook['Autor'] ?></td>
                         <td>
@@ -169,20 +187,22 @@ require __DIR__ . '/../components/editLibro.php';
 
 <script>
     const btnCheckAll = document.getElementById('btnCheckAllBooks');
-    const btnDeleteAllUser = document.getElementById('btnDeleteAllBook');
+    const btnDeleteAllBook = document.getElementById('btnDeleteAllBook');
     const btnDeletBook = document.getElementById('btnDeletBook');
     const btnFavoriteListBook = document.getElementById('btnListFavoriteBook');
     const btnFavoriteBook = document.getElementById('btnFavoriteBook');
-    btnCheckAll.onclick = function() {
-        var checkboxes = document.querySelectorAll('.form-check-input');
-        for (var checkbox of checkboxes) {
-            checkbox.checked = this.checked;
-        }
-        //valida el estado del boton de eliminar todos los usuario
-        let status = btnCheckAll.checked ? false : true;
-        btnDeleteAllUser.disabled = status;
-    }
 
+    
+        btnCheckAll.onclick = function() {
+            var checkboxes = document.querySelectorAll('.form-check-input');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = this.checked;
+            }
+            //valida el estado del boton de eliminar todos los usuario
+            let status = btnCheckAll.checked ? false : true;
+            btnDeleteAllBook.disabled = status;
+        }
+    
     document.addEventListener('DOMContentLoaded', function() {
         const btnEditUser = document.querySelectorAll('#btn_edit_user'); // Cambia a querySelectorAll para manejar múltiples botones
 
@@ -233,57 +253,94 @@ require __DIR__ . '/../components/editLibro.php';
     });
 
 
-    document.getElementById('formSearchBook').addEventListener('submit', (e) => {
-        e.preventDefault(); // Previene el envío predeterminado del formulario
+    document.getElementById('formListFavoriteBook').addEventListener('submit', (e) => {
+        //e.preventDefault(); // Previene el envío predeterminado del formulario
 
-        const formData = new FormData(document.getElementById('formSearchBook'));
-        formData.append("action", "SearchBook");
-
-        fetch('http://localhost/DESARROLLO_VII_LEANDRO_RODRIGUEZ/PARCIALES/PARCIAL_4/PARCIAL_4_DSW7/app/src/libros/dasboard.php', {
+        const formData = new FormData(document.getElementById('formListFavoriteBook'));
+        fetch('http://localhost/PARCIALES/PARCIAL_4_DSW7/app/src/libros/dasboard.php', {
                 method: 'POST',
                 body: formData
             })
+            /*
+            .then(response => response.text()) // Cambia a .text() para recibir el mensaje como texto
+            .then(data => {
+                alert(data);
+            })
+                */
             .catch(error => console.error('Error:', error));
     });
 
-    btnDeleteAllUser.addEventListener('click', (e) => {
-        // Crear un objeto FormData a partir del formulario
-        const formData = new FormData();
-        formData.append("action", "deleteAllUser"); // Agregar el campo 'action' con el valor 'addUser'
+    document.getElementById('formSalirFavoriteBook').addEventListener('submit', (e) => {
+        //e.preventDefault(); // Previene el envío predeterminado del formulario
 
-        fetch('./src/admin/usuarios.php', {
+        const formData = new FormData(document.getElementById('formSalirFavoriteBook'));
+        fetch('http://localhost/PARCIALES/PARCIAL_4_DSW7/app/src/libros/dasboard.php', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.text())
+            /*
+            .then(response => response.text()) // Cambia a .text() para recibir el mensaje como texto
+            .then(data => {
+                alert(data);
+            })
+                */
+            .catch(error => console.error('Error:', error));
+    });
+
+    // accion para enviar los libros al seridor
+    document.getElementById('formSearchBook').addEventListener('submit', (e) => {
+        //e.preventDefault(); // Previene el envío predeterminado del formulario
+
+        const formData = new FormData(document.getElementById('formSearchBook'));
+        fetch('http://localhost/PARCIALES/PARCIAL_4_DSW7/app/src/libros/dasboard.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text()) // Cambia a .text() para recibir el mensaje como texto
             .then(data => {
                 alert(data);
             })
             .catch(error => console.error('Error:', error));
     });
+    
+        btnDeleteAllBook.addEventListener('click', (e) => {
+            // Crear un objeto FormData a partir del formulario
+            const formData = new FormData();
+            formData.append("action", "deleteAllUser"); // Agregar el campo 'action' con el valor 'addUser'
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const checkboxes = document.querySelectorAll('.form-check-input');
-
-        function updateButtonState() {
-            let selectedCount = 0;
-
-            checkboxes.forEach((checkbox) => {
-                if (checkbox.checked) {
-                    selectedCount++;
-                }
-            });
-
-            // Habilita el botón si hay 2 o más checkboxes seleccionados
-            btnDeleteAllUser.disabled = selectedCount < 2;
-        }
-
-        // Llama a la función al cargar la págiNna para establecer el estado inicial del botón
-        updateButtonState();
-
-        // Añade el evento 'change' a cada checkbox para actualizar el estado del botón en tiempo real
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener('change', updateButtonState);
+            fetch('./src/admin/usuarios.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                })
+                .catch(error => console.error('Error:', error));
         });
-    });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.form-check-input');
+
+            function updateButtonState() {
+                let selectedCount = 0;
+
+                checkboxes.forEach((checkbox) => {
+                    if (checkbox.checked) {
+                        selectedCount++;
+                    }
+                });
+
+                // Habilita el botón si hay 2 o más checkboxes seleccionados
+                btnDeleteAllUser.disabled = selectedCount < 2;
+            }
+
+            // Llama a la función al cargar la págiNna para establecer el estado inicial del botón
+            updateButtonState();
+
+            // Añade el evento 'change' a cada checkbox para actualizar el estado del botón en tiempo real
+            checkboxes.forEach((checkbox) => {
+                checkbox.addEventListener('change', updateButtonState);
+            });
+        });
 </script>
