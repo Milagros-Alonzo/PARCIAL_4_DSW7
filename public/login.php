@@ -9,7 +9,9 @@
 
         <input type="submit" value="Iniciar Sesión">
     </form>
-
+    <div style="margin-top: 20px;">
+        <p>¿No tienes una cuenta? <a href="../app/views/auth/login.php">Regístrate aquí</a></p>
+    </div>
     <div style="margin-top: 20px;">
         <?php include __DIR__ . '/../app/oauth/sesion_GoogleOauth.php'; ?>
     </div>

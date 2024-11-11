@@ -56,4 +56,53 @@ class UserController
         
         return $this->userModel->getIdUser($google_id);
     }
+
+    public function login($email, $pass){
+        $res =  $this->userModel->login($email, $pass);
+        var_dump($res);
+        die();
+        /*
+        if ($this->userModel->login($email, $pass) == 1) {
+            return true;
+        } else {
+            return false ;
+        }*/
+    }
+
+    // Método en el modelo UserModel para obtener el usuario por email
+
+
+// Método en el controlador UserController para iniciar sesión
+public function login($email, $pass)
+{
+    // Llamar al modelo para obtener los datos del usuario por email
+    $user = $this->userModel->login($email);
+
+    // Verificar si el usuario existe y si la contraseña es correcta
+    if ($user && password_verify($pass, $user['pass_user'])) {
+        // Iniciar la sesión
+        session_start();
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_name'] = $user['nombre'];
+        $_SESSION['is_admin'] = $user['is_admin']; // Asumiendo que hay una columna 'is_admin'
+
+        echo "Inicio de sesión exitoso."; // Mensaje de prueba
+
+        // Puedes redirigir al dashboard si lo deseas
+        header("Location: ../user/dashboard.php");
+        exit();
+    } else {
+        echo "Usuario o contraseña incorrectos.";
+    }
 }
+
+// Código de prueba
+$resultado = new UserController();
+$resultado->login("alonzomilagros24@gmail.com", "1234");
+
+}
+
+$resultado = new userController();
+$resultado->login("alonzomilagros24@gmail.com","1234");
+var_dump($resultado);
+die();
