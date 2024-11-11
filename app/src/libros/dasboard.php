@@ -4,28 +4,43 @@
 
 require 'libros.php';
 
-
-
+$user_id = $_SESSION['userId'];
+$_GET['lastBookSearch'] = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     var_dump($_POST);
     if (isset($_POST['evento']) && $_POST['evento'] == 'searchBook') {
         if (isset($_POST['bookName'])) {
             $query = $_POST['bookName'];
+            $_GET['lastBookSearch'] = $_POST['bookName'];
             searchBook($query);
         }
     }
 
     if (isset($_POST['evento']) && $_POST['evento'] == 'listarFavoritos') {
         $_SESSION['action'] = 'ListarFavoritos';
-        listarFavoritos();
+      //  $user_id = $_SESSION['userId'];
+        listarFavoritos($user_id);
+    }
+
+    if (isset($_POST['evento']) && $_POST['evento'] == 'agregarFavoritos') {
+        $_SESSION['action'] = 'AgregarFavoritos';
+       // $user_id = $_SESSION['userId'];
+        //agregarFavoritos('');
     }
 
     if (isset($_POST['evento']) && $_POST['evento'] == 'salirFavoritos') {
         $_SESSION['action'] = 'ListarLibros';
+        if (isset($_POST['bookName'])) {
+            $query =  $_GET['lastBookSearch'];
+            searchBook($query);
+        }
     }
     if (isset($_POST['evento']) && $_POST['evento'] == 'eliminarBookFavoritos') {
         $_SESSION['action'] = 'ListarLibros';
+        $google_books_id = $_POST['libroId'];
+       // $user_id = $_SESSION['userId'];
+        eliminarBoookFavoritos($google_books_id, $user_id);
     }
 
     // die();

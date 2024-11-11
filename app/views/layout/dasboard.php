@@ -18,6 +18,7 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark">
                         <li><a class="dropdown-item active" href="#">Perfil</a></li>
+                        <li><a class="dropdown-item " href="#">Recuperar contraseña</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -31,15 +32,7 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
 
         <div class="eventos d-flex gap-3 p-2 ">
             <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
-                <span>
-                    <input type="checkbox" class="btn-check" id="btnCheckAllBooks" autocomplete="off">
-                    <label class="btn btn-primary" for="btnCheckAllBooks">Seleccionar Todo</label>
-                </span>
-                <form id="formDeleteAllBook" method="post">
-                    <button class="btn btn-danger" type="submit" id="btnDeleteAllBook" disabled>
-                        <i class="fa-solid fa-trash"></i> Eliminar Todo
-                    </button>
-                </form>
+
                 <form id="formSalirFavoriteBook" method="post">
                     <input type="hidden" name="evento" value="salirFavoritos">
                     <button type="submit" class="btn btn-secondary" id="btnSalirFavoriteBook">
@@ -73,28 +66,22 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
         <table class="table table-light table-hover">
             <thead>
                 <tr>
-                    <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
-                        <th scope="col"></th>
-                    <?php endif; ?>
+
                     <th scope="col">Eventos</th>
                     <th scope="col">Titulo</th>
                     <th scope="col">Autor</th>
                     <th scope="col">Imagen Portada</th>
                     <th scope="col">Descripcion</th>
+                    <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
+                        <th scope="col">Reseña Personal</th>
+                    <?php endif; ?>
                     <th scope="col">Fecha Guardado</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($arrayDatosPorPagina as $arrayBook): ?>
-                    <tr>
-                        <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
-                            <th scope='row'>
-                                <input class="form-check-input"
-                                    type="checkbox"
-                                    value="<?php echo $arrayBook['Id'] ?>"
-                                    id="checbox<?php echo $arrayBook['Id'] ?>                                                                                                                                ?>">
-                            </th>
-                        <?php endif; ?>
+                    <tr data-libro-id="<?php echo $arrayBook['Id']; ?>">
+
                         <td class="container-acciones">
                             <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
                                 <!-- Edit button that opens the modal and passes the user ID -->
@@ -109,11 +96,10 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                                     </buttom>
                                 </span>
 
-
                                 <button
                                     class="btn btn-danger" data-bs-toggle="tooltip"
                                     data-bs-placement="right" data-bs-title="Delete"
-                                    id="btnDeleteBook"
+                                    id="btnDeleteBook" onclick="handleClickBtnDeleteFavorite(this)"
                                     data-libro-id="<?php echo $arrayBook['Id'];
                                                     ?>"
                                     data-bs-toggle="tooltip">
@@ -126,7 +112,7 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                                     <buttom class=" btn btn-primary "
                                         data-libro-id="<?php echo $arrayBook['Id'];
                                                         ?>"
-                                        data-bs-target="#edit_libro"
+                                        data-bs-target="#agregarLibroFavorito"
                                         id="btnFavoriteBook"
                                         data-bs-toggle="modal">
                                         <i class="fa-solid fa-star"></i>
@@ -143,7 +129,10 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                                 <img class='img-fluid' src="<?php echo $arrayBook['ImagenPortada'] ?>" alt="<?php echo $arrayBook['Titulo'] ?>">
                             </span>
                         </td>
-                        <td><?php echo $arrayBook['ReseñaPersonal'] ?></td>
+                        <td><?php echo $arrayBook['Descripcion'] ?></td>
+                        <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
+                            <td><?php echo $arrayBook['ResenaPersonal'] ?></td>
+                        <?php endif; ?>
                         <td><?php echo $arrayBook['FechaGuardado'] ?></td>
 
 
@@ -186,72 +175,63 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
 
 
 <script>
-    const btnCheckAll = document.getElementById('btnCheckAllBooks');
-    const btnDeleteAllBook = document.getElementById('btnDeleteAllBook');
-    const btnDeletBook = document.getElementById('btnDeletBook');
     const btnFavoriteListBook = document.getElementById('btnListFavoriteBook');
-    const btnFavoriteBook = document.getElementById('btnFavoriteBook');
+    const btnFavoriteBook = document.querySelectorAll('#btnFavoriteBook');
 
-    
-        btnCheckAll.onclick = function() {
-            var checkboxes = document.querySelectorAll('.form-check-input');
-            for (var checkbox of checkboxes) {
-                checkbox.checked = this.checked;
-            }
-            //valida el estado del boton de eliminar todos los usuario
-            let status = btnCheckAll.checked ? false : true;
-            btnDeleteAllBook.disabled = status;
-        }
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        const btnEditUser = document.querySelectorAll('#btn_edit_user'); // Cambia a querySelectorAll para manejar múltiples botones
+    /*
+    btnFavoriteBook.forEach(boton => {
+        boton.addEventListener('click', function() {
+            const fila = this.closest('tr');
+            const titulo = fila.cells[2].textContent;
+            const autor = fila.cells[3].textContent;
+            const img = fila.cells[4].textContent;
+            const descripcion = fila.cells[5].textContent;
+            const fecha = fila.cells[6].textContent;
 
-        btnEditUser.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const libroId = button.getAttribute('data-libro-id'); // Obtiene el `libroId` del atributo `data-libro-id`
+            const formData = new FormData();
+            formData.append('titulo', titulo);
+            formData.append('autor', autor);
+            formData.append('img', img);
+            formData.append('descripcion', descripcion);
+            formData.append('fecha', fecha);
+            FormData.append('event', 'agreggarFavoritos')
 
-                // Verifica que `libroId` no esté vacío
-                if (!libroId) {
-                    console.error('Error: el ID de usuario no está definido.');
-                    alert('Error: el ID de usuario no está definido.');
-                    return;
-                }
-
-                // Crear un objeto FormData a partir del formulario
-                const formData = new FormData();
-                formData.append("action", "getDataLiboEdit"); // Agregar el campo 'action' con el valor 'editUser '
-                formData.append("libroId", libroId); // Agregar el campo 'libroId'
-
-                fetch('./src/admin/usuarios.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json()) // Asegúrate de que el servidor devuelva un JSON
-                    .then(data => {
-                        // Aquí se asume que el servidor devuelve un objeto con los datos del usuario
-                        if (data) {
-                            // Actualiza los campos del formulario en el modal
-                            document.getElementById('id').value = data.id;
-                            document.getElementById('user_id').value = data.user_id;
-                            document.getElementById('google_books_id').value = data.google_books_id;
-                            document.getElementById('title').value = data.title;
-                            document.getElementById('imagen_portada').value = data.portada;
-                            document.getElementById('resena_personal').value = data.resena_personal;
-                            document.getElementById('fecha_guardado').value = data.fecha_guardado;
-                            /*
-                             // Muestra el modal
-                            onst modal = new bootstrap.Modal(document.getElementById('edit_admin_modal'));
-                              modal.show();*/
-
-                        } else {
-                            console.error('Error: no se recibieron datos del usuario.');
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            });
+            fetch('http://localhost/PARCIALES/PARCIAL_4_DSW7/app/src/libros/dasboard.php', {
+                    method: 'POST',
+                    body: formData
+                })
+            
+                .then(response => response.text()) // Cambia a .text() para recibir el mensaje como texto
+                .then(data => {
+                    alert(data);
+                })
+                    
+                .catch(error => console.error('Error:', error));
         });
     });
+*/
+    function handleClickBtnDeleteFavorite(button) {
+        const idBook = button.getAttribute('data-libro-id');
 
+        if (!idBook) {
+            console.error('Error: Book ID is not defined.');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('bookId', idBook);
+        formData.append('evento', 'eliminarBookFavoritos');
+        fetch('http://localhost/PARCIALES/PARCIAL_4_DSW7/app/src/libros/dasboard.php', {
+                method: 'POST',
+                body: formData
+            })
+            /*
+            .then(response => response.text()) // Cambia a .text() para recibir el mensaje como texto
+            .then(data => {
+                alert(data);
+            })
+                */
+            .catch(error => console.error('Error:', error));
+    }
 
     document.getElementById('formListFavoriteBook').addEventListener('submit', (e) => {
         //e.preventDefault(); // Previene el envío predeterminado del formulario
@@ -287,7 +267,6 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
             .catch(error => console.error('Error:', error));
     });
 
-    // accion para enviar los libros al seridor
     document.getElementById('formSearchBook').addEventListener('submit', (e) => {
         //e.preventDefault(); // Previene el envío predeterminado del formulario
 
@@ -302,45 +281,4 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
             })
             .catch(error => console.error('Error:', error));
     });
-    
-        btnDeleteAllBook.addEventListener('click', (e) => {
-            // Crear un objeto FormData a partir del formulario
-            const formData = new FormData();
-            formData.append("action", "deleteAllUser"); // Agregar el campo 'action' con el valor 'addUser'
-
-            fetch('./src/admin/usuarios.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.text())
-                .then(data => {
-                    alert(data);
-                })
-                .catch(error => console.error('Error:', error));
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkboxes = document.querySelectorAll('.form-check-input');
-
-            function updateButtonState() {
-                let selectedCount = 0;
-
-                checkboxes.forEach((checkbox) => {
-                    if (checkbox.checked) {
-                        selectedCount++;
-                    }
-                });
-
-                // Habilita el botón si hay 2 o más checkboxes seleccionados
-                btnDeleteAllUser.disabled = selectedCount < 2;
-            }
-
-            // Llama a la función al cargar la págiNna para establecer el estado inicial del botón
-            updateButtonState();
-
-            // Añade el evento 'change' a cada checkbox para actualizar el estado del botón en tiempo real
-            checkboxes.forEach((checkbox) => {
-                checkbox.addEventListener('change', updateButtonState);
-            });
-        });
 </script>
