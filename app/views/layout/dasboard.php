@@ -240,6 +240,7 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
             console.error('Error: Book ID is not defined.');
             return;
         }
+        //console.log(idBook);
         const formData = new FormData();
         formData.append('bookId', idBook);
         formData.append('evento', 'eliminarBookFavoritos');
@@ -249,10 +250,11 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
             })
 
             .then(response => response.text()) // Cambia a .text() para recibir el mensaje como texto
-            .then(data => {
-                alert(data);
-            })
+             .then(data => {
+                //alert(data);
+                window.location.reload();
 
+            })
             .catch(error => console.error('Error:', error));
     }
 

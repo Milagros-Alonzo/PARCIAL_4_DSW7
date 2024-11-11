@@ -17,8 +17,8 @@
         <input type="hidden" id="f_fecha" name="fechaPublicacion"> 
           <div class="form-group">
             <div class="mb-3">
-              <label for="exampleFormControlTextarea1" class="form-label">Agregar Reseña</label>
-              <textarea class="form-control" name='resena' id="exampleFormControlTextarea1" rows="3"></textarea>
+              <label for="resenaLabel" class="form-label">Agregar Reseña</label>
+              <textarea class="form-control" name='resena' id="resenaLabel" rows="3"></textarea>
             </div>
           </div>
 
