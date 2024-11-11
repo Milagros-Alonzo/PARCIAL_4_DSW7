@@ -10,12 +10,13 @@ class UserModel
     }
 
     // Registrar un nuevo usuario
-    public function register($email, $nombre, $google_id = null, $password_hash = null) {
-        $query = "INSERT INTO usuarios (email, nombre, google_id, pass_user) VALUES (?, ?, ?, ?)";
+    public function register($email, $nombre, $pass) {
+        $query = "INSERT INTO usuarios (email, nombre, pass_user) VALUES (?, ?, ?)";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ssss', $email, $nombre, $google_id, $password_hash); // 'ssss' indica que son cuatro strings
+        $stmt->bind_param('sss', $email, $nombre, $pass); // 'sss' indica que son tres strings
         return $stmt->execute();
     }
+    
 
     // Obtener un usuario por su email
     public function getByEmail($email) {
@@ -69,43 +70,21 @@ class UserModel
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $google_id);
         return $stmt->execute();
-    }}
+    }
 
-    /*public function login($email,$pass)
+    public function login($email, $pass)
     {
-        // Consulta SQL para verificar si existe el usuario con el email y password_hash especificados
-        $query = "SELECT EXISTS (SELECT 1  FROM usuarios  WHERE email = ? 
-                  AND pass_user = ? )";
+        // Consulta SQL para verificar si existe el usuario con el email y  especificados
+        $query = "SELECT 1 FROM usuarios WHERE email = ? AND pass_user = ? LIMIT 1";
         // Preparar y ejecutar la consulta
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("ss", $email, $pass);
         $stmt->execute();
-        $result = $stmt->get_result()->fetch_assoc();
-        return $result;
+        $result = $stmt->get_result();    
+        // Verificar si se encontró al menos una fila
+        return $result->num_rows > 0;
     }
 
-}*/
-/*if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
-    $stmt->execute([$username]);
-    $user = $stmt->fetch();
-    // var_dump($user["password"]);
-    // die();
-    if ($user && password_verify($password, $user["password"])) {
-        if ($user["is_verified"]) {
-            $_SESSION["user_id"] = $user["id"];
-            $_SESSION["is_admin"] = $user["is_admin"];
-            header("Location: dashboard.php");
-            exit();
-        } else {
-            echo "Tu cuenta aún no ha sido verificada. Revisa tu correo.";
-        }
-    } else {
-        echo "Usuario o contraseña incorrectos
-}*/
-
+}
 
 ?>

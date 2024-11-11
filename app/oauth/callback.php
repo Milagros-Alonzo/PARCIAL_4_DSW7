@@ -34,7 +34,7 @@ if (isset($_GET['code'])) {
 $_SESSION['userId'] = $user_data['id'];
 // var_dump($user_data);
 // die();
-
+/*
 $email = $user_data['email'];
 $nombre = $user_data['name'];
 $google_id = $user_data['id'];
@@ -42,8 +42,8 @@ $google_id = $user_data['id'];
 
 $auth = new AuthController();
 $auth->register($email, $nombre, $google_id);
-
+*/
 $_SESSION['sesion'] = true;
 
-header("location:http://localhost/PARCIALES/PARCIAL_4_DSW7/public/index.php");
+header("Location: /../../index.php");
 exit();
