@@ -1,15 +1,18 @@
 <?php
 
-class BookModel {
+class BookModel
+{
     private $db;
 
     // Constructor: inicializa la conexión a la base de datos
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
     }
 
     // Guardar un libro en la base de datos
-    public function saveBook($user_id, $google_books_id, $titulo, $autor, $imagen_portada, $reseña_personal) {
+    public function saveBook($user_id, $google_books_id, $titulo, $autor, $imagen_portada, $reseña_personal)
+    {
         $query = "INSERT INTO libros_guardados (user_id, google_books_id, titulo, autor, imagen_portada, reseña_personal) 
                   VALUES (:user_id, :google_books_id, :titulo, :autor, :imagen_portada, :reseña_personal)";
         $stmt = $this->db->prepare($query);
@@ -23,24 +26,21 @@ class BookModel {
     }
 
     // Obtener todos los libros guardados por un usuario
-    /*
-    public function getBooksByUserId($user_id) {
-        $query = "SELECT * FROM libros_guardados WHERE user_id = :user_id ORDER BY fecha_guardado DESC";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }    */
-    public function getBooksByUserId($user_id) {
-        $query = "SELECT * FROM libros_guardados WHERE user_id = ? ORDER BY fecha_guardado DESC";
+    public function getBooksByUserId($user_id)
+    {
+        $query = "SELECT * FROM libros_guardados l,usuarios u
+                  WHERE l.user_id = u.id
+                  and u.google_id = ?
+                  ORDER BY fecha_guardado DESC";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("i", $user_id); // Usa bind_param con el tipo de dato (i para entero)
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    
     }
+
     // Obtener un libro guardado por su google_books_id y user_id
-    public function getBookByGoogleIdAndUser($google_books_id, $user_id) {
+    public function getBookByGoogleIdAndUser($google_books_id, $user_id)
+    {
         $query = "SELECT * FROM libros_guardados WHERE google_books_id = :google_books_id AND user_id = :user_id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':google_books_id', $google_books_id);
@@ -50,7 +50,8 @@ class BookModel {
     }
 
     // Actualizar la reseña personal de un libro guardado
-    public function updateReview($google_books_id, $user_id, $reseña_personal) {
+    public function updateReview($google_books_id, $user_id, $reseña_personal)
+    {
         $query = "UPDATE libros_guardados SET reseña_personal = :reseña_personal WHERE google_books_id = :google_books_id AND user_id = :user_id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':reseña_personal', $reseña_personal);
@@ -60,12 +61,14 @@ class BookModel {
     }
 
     // Eliminar un libro de la biblioteca personal
-    public function deleteBook($google_books_id, $user_id) {
-        $query = "DELETE FROM libros_guardados WHERE google_books_id = :google_books_id AND user_id = :user_id";
+    public function deleteBook($google_books_id, $user_id)
+    {
+        $query = "DELETE FROM libros_guardados 
+        WHERE google_books_id = :google_books_id 
+        AND user_id = :user_id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':google_books_id', $google_books_id);
         $stmt->bindParam(':user_id', $user_id);
         return $stmt->execute();
     }
 }
-?>

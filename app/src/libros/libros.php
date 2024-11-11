@@ -46,10 +46,9 @@ function fetchBooks($query)
     fecha_guardado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
 */
-function listarFavoritos()
+function listarFavoritos($user_id)
 {
     $bookController = new BookController();
-    $user_id = $_SESSION['userId'];
     $books_array = $bookController->getBooksByUser($user_id);
     //print_r($books_array);
     $_SESSION['books'] = [];
@@ -61,13 +60,23 @@ function listarFavoritos()
             'Titulo' => $book['titulo'],
             'Autor' => $book['autor'],
             'ImagenPortada' => $book['imagen_portada'],
-            'ReseñaPersonal' => $book['reseña_personal'],
+            'ResenaPersonal' => $book['reseña_personal'],
+            'Descripcion' => $book['descripcion'],
             'FechaGuardado' => $book['fecha_guardado'],
         );
     }
 }
 
-
+function eliminarBoookFavoritos($google_books_id, $user_id)
+{
+    $bookController = new BookController();
+    $bookController->deleteBook($google_books_id, $user_id);
+}
+function agregarFavoritos($array)
+{
+    $bookController = new BookController();
+    $bookController->saveBook($array['user_id'], $array['google_books_id'], $array['titulo'], $array['autor'], $array['imagen_portada'], $array['reseña_personal'],$array['descripion']);
+}
 function searchBook($query)
 {
     if (!empty($query)) {
@@ -79,12 +88,12 @@ function searchBook($query)
             foreach ($books['items'] as $book) {
                 $_SESSION['books'][] = array(
                     'Id' => $book['id'],
-                    'UserId' =>$_SESSION['userId'],
+                    'UserId' => $_SESSION['userId'],
                     'GoogleBooksId' => $book['id'],
                     'Titulo' => $book['volumeInfo']['title'],
                     'Autor' => implode(", ", $book['volumeInfo']['authors'] ?? []),
                     'ImagenPortada' => $book['volumeInfo']['imageLinks']['thumbnail'] ?? "",
-                    'ReseñaPersonal' => resumenTexto($book['volumeInfo']['description'] ?? "No disponible"),
+                    'Descripcion' => resumenTexto($book['volumeInfo']['description'] ?? "No disponible"),
                     'FechaGuardado' => $book['volumeInfo']['publishedDate'] ?? "",
                 );
             }
