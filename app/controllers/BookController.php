@@ -20,8 +20,8 @@ class BookController {
     }
 
     // Guardar un libro en la base de datos
-    public function saveBook($user_id, $google_books_id, $titulo, $autor, $imagen_portada, $reseña_personal) {
-        if ($this->bookModel->saveBook($user_id, $google_books_id, $titulo, $autor, $imagen_portada, $reseña_personal)) {
+    public function saveBook($user_id, $google_books_id, $titulo, $autor, $imagen_portada, $reseña_personal,$descripcion,$fecha_publicacion) {
+        if ($this->bookModel->saveBook($user_id, $google_books_id, $titulo, $autor, $imagen_portada, $reseña_personal,$descripcion,$fecha_publicacion)) {
             return "Libro guardado exitosamente.";
         } else {
             return "Hubo un error al guardar el libro.";
