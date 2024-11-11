@@ -1,9 +1,11 @@
 <?php
-class UserModel {
+class UserModel
+{
     private $db;
 
     // Constructor: inicializa la conexión a la base de datos
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
     }
 
@@ -25,7 +27,25 @@ class UserModel {
     }
 
     // Obtener un usuario por su google_id
-    public function getByGoogleId($google_id) {
+    public function getIdUser($google_id)
+    {
+        $query = "SELECT id FROM usuarios WHERE google_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $google_id); // 's' indica que es un string
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+
+        // Si el usuario existe, devuelve el id. Si no, devuelve null
+        if ($result) {
+            return (int) $result['id']; // Asegurarte de que el id es un entero
+        } else {
+            return null; // Si no se encuentra el usuario
+        }
+    }
+    
+    // Obtener un usuario por su google_id
+    public function getByGoogleId($google_id)
+    {
         $query = "SELECT * FROM usuarios WHERE google_id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $google_id); // 's' indica que es un string
@@ -34,7 +54,8 @@ class UserModel {
     }
 
     // Actualizar información del usuario (por ejemplo, nombre)
-    public function update($google_id, $nombre) {
+    public function update($google_id, $nombre)
+    {
         $query = "UPDATE usuarios SET nombre = ? WHERE google_id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ss', $nombre, $google_id);
@@ -42,7 +63,8 @@ class UserModel {
     }
 
     // Eliminar un usuario
-    public function delete($google_id) {
+    public function delete($google_id)
+    {
         $query = "DELETE FROM usuarios WHERE google_id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $google_id);

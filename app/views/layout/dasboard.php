@@ -75,7 +75,10 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                     <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
                         <th scope="col">Reseña Personal</th>
                     <?php endif; ?>
-                    <th scope="col">Fecha Guardado</th>
+                    <th scope="col">Fecha Publicacíon</th>
+                    <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
+                        <th scope="col">Fecha Guardados</th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
@@ -133,7 +136,11 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                         <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
                             <td><?php echo $arrayBook['ResenaPersonal'] ?></td>
                         <?php endif; ?>
-                        <td><?php echo $arrayBook['FechaGuardado'] ?></td>
+                        <td><?php echo $arrayBook['FechaPublicacion'] ?></td>
+                        <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
+
+                            <td><?php echo $arrayBook['FechaGuardado'] ?></td>
+                        <?php endif; ?>
 
 
                     </tr>
@@ -178,38 +185,54 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
     const btnFavoriteListBook = document.getElementById('btnListFavoriteBook');
     const btnFavoriteBook = document.querySelectorAll('#btnFavoriteBook');
 
-    /*
-    btnFavoriteBook.forEach(boton => {
-        boton.addEventListener('click', function() {
-            const fila = this.closest('tr');
-            const titulo = fila.cells[2].textContent;
-            const autor = fila.cells[3].textContent;
-            const img = fila.cells[4].textContent;
-            const descripcion = fila.cells[5].textContent;
-            const fecha = fila.cells[6].textContent;
 
-            const formData = new FormData();
-            formData.append('titulo', titulo);
-            formData.append('autor', autor);
-            formData.append('img', img);
-            formData.append('descripcion', descripcion);
-            formData.append('fecha', fecha);
-            FormData.append('event', 'agreggarFavoritos')
+    btnFavoriteBook.forEach(button => {
+        button.addEventListener('click', function() {
+            const row = this.closest('tr');
+            const bookId = row.getAttribute('data-libro-id'); // Obtiene el data-libro-id
+            const titulo = row.cells[1].textContent;
+            const autor = row.cells[2].textContent;
+            const image = row.querySelector('img').src; // Ajustado para obtener la fuente de la imagen
+            const descripcion = row.cells[4].textContent;
+            const fecha = row.cells[5].textContent;
 
-            fetch('http://localhost/PARCIALES/PARCIAL_4_DSW7/app/src/libros/dasboard.php', {
-                    method: 'POST',
-                    body: formData
-                })
-            
-                .then(response => response.text()) // Cambia a .text() para recibir el mensaje como texto
-                .then(data => {
-                    alert(data);
-                })
-                    
-                .catch(error => console.error('Error:', error));
+            // Rellenar el modal con la información del libro
+            document.getElementById('f_bookId').value = bookId; // Suponiendo que tienes un campo oculto con id "bookId"
+            document.getElementById('f_autor').value = autor;
+            document.getElementById('f_titulo').value = titulo;
+            document.getElementById('f_image').value = image;
+            document.getElementById('f_descripcion').value = descripcion;
+            document.getElementById('f_fecha').value = fecha;
+
+            document.getElementById('modalTitle').textContent = titulo; // Establecer el título en el modal
+
+            // Establecer otros datos en el modal si es necesario, como autor, imagen, descripción, etc.
         });
     });
-*/
+
+    // Cuando se hace submit en el formulario del modal
+    document.getElementById('formAgregarbookFavorito').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevenir el envío por defecto del formulario
+
+        // Crear un objeto FormData a partir del formulario
+        const formData = new FormData(document.getElementById('formAgregarbookFavorito'));
+
+        formData.append('evento', 'agregarFavoritos'); // Evento
+        // Enviar los datos con fetch
+        fetch('http://localhost/PARCIALES/PARCIAL_4_DSW7/app/src/libros/dasboard.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                //alert(data); // Mostrar respuesta del servidor
+                // Opcionalmente, puedes cerrar el modal aquí
+                $('#agregarLibroFavorito').modal('hide');
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+
     function handleClickBtnDeleteFavorite(button) {
         const idBook = button.getAttribute('data-libro-id');
 
@@ -224,12 +247,12 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                 method: 'POST',
                 body: formData
             })
-            /*
+
             .then(response => response.text()) // Cambia a .text() para recibir el mensaje como texto
             .then(data => {
                 alert(data);
             })
-                */
+
             .catch(error => console.error('Error:', error));
     }
 

@@ -1,5 +1,6 @@
 <?php
 require  __DIR__ . '/../../controllers/BookController.php';
+require  __DIR__ . '/../../controllers/UserController.php';
 
 function resumenTexto($texto)
 {
@@ -35,17 +36,6 @@ function fetchBooks($query)
 }
 
 
-/*
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    google_books_id VARCHAR(255) NOT NULL,
-    titulo VARCHAR(255) NOT NULL,
-    autor VARCHAR(255),
-    imagen_portada VARCHAR(255),
-    reseña_personal TEXT,
-    fecha_guardado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-*/
 function listarFavoritos($user_id)
 {
     $bookController = new BookController();
@@ -63,6 +53,7 @@ function listarFavoritos($user_id)
             'ResenaPersonal' => $book['reseña_personal'],
             'Descripcion' => $book['descripcion'],
             'FechaGuardado' => $book['fecha_guardado'],
+            'FechaPublicacion' => $book['fecha_publicacion'],
         );
     }
 }
@@ -70,12 +61,29 @@ function listarFavoritos($user_id)
 function eliminarBoookFavoritos($google_books_id, $user_id)
 {
     $bookController = new BookController();
-    $bookController->deleteBook($google_books_id, $user_id);
+    $userController = new UserController();
+    $bookController->deleteBook($google_books_id, $userController->getId($user_id));
+    echo "aqui estoy imprimiendo el id del user ". $userController->getId($user_id);
+
 }
 function agregarFavoritos($array)
 {
     $bookController = new BookController();
-    $bookController->saveBook($array['user_id'], $array['google_books_id'], $array['titulo'], $array['autor'], $array['imagen_portada'], $array['reseña_personal'],$array['descripion']);
+    $userController = new UserController();
+
+    
+    echo "aqui estoy imprimiendo el id del user ". $userController->getId($array['user_id']);
+    
+    $bookController->saveBook(
+        $userController->getId($array['user_id']),
+        $array['google_books_id'],
+        $array['titulo'],
+        $array['autor'],
+        $array['imagen_portada'],
+        $array['resena_personal'],
+        $array['descripion'],
+        $array['fechaPublicacion']
+    );
 }
 function searchBook($query)
 {
@@ -94,7 +102,7 @@ function searchBook($query)
                     'Autor' => implode(", ", $book['volumeInfo']['authors'] ?? []),
                     'ImagenPortada' => $book['volumeInfo']['imageLinks']['thumbnail'] ?? "",
                     'Descripcion' => resumenTexto($book['volumeInfo']['description'] ?? "No disponible"),
-                    'FechaGuardado' => $book['volumeInfo']['publishedDate'] ?? "",
+                    'FechaPublicacion' => $book['volumeInfo']['publishedDate'] ?? "",
                 );
             }
         } else {
