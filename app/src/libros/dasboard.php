@@ -1,11 +1,16 @@
 <?php
 
-
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 require 'libros.php';
 
 $user_id = $_SESSION['userId'];
 $_GET['lastBookSearch'] = "";
+
+
+// El resto del código...
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     var_dump($_POST);

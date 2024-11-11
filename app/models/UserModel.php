@@ -8,11 +8,20 @@ class UserModel {
     }
 
     // Registrar un nuevo usuario
-    public function register($email, $nombre, $google_id) {
-        $query = "INSERT INTO usuarios (email, nombre, google_id) VALUES (?, ?, ?)";
+    public function register($email, $nombre, $google_id = null, $password_hash = null) {
+        $query = "INSERT INTO usuarios (email, nombre, google_id, password_hash) VALUES (?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('sss', $email, $nombre, $google_id); // 'sss' indica que son tres strings
+        $stmt->bind_param('ssss', $email, $nombre, $google_id, $password_hash); // 'ssss' indica que son cuatro strings
         return $stmt->execute();
+    }
+
+    // Obtener un usuario por su email
+    public function getByEmail($email) {
+        $query = "SELECT * FROM usuarios WHERE email = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $email); // 's' indica que es un string
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc(); // Devolver el usuario si existe
     }
 
     // Obtener un usuario por su google_id
