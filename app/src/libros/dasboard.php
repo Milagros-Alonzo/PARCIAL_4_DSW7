@@ -1,8 +1,4 @@
 <?php
-<<<<<<< HEAD
-
-=======
->>>>>>> 03db740a2fae8ebc928047ed153f8945bb55de33
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
