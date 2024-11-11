@@ -1,6 +1,7 @@
 <?php
-
-
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 require 'libros.php';
 
@@ -8,7 +9,7 @@ $user_id = $_SESSION['userId'];
 $_GET['lastBookSearch'] = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    var_dump($_POST);
+    //var_dump($_POST);
     if (isset($_POST['evento']) && $_POST['evento'] == 'searchBook') {
         if (isset($_POST['bookName'])) {
             $query = $_POST['bookName'];
@@ -19,14 +20,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (isset($_POST['evento']) && $_POST['evento'] == 'listarFavoritos') {
         $_SESSION['action'] = 'ListarFavoritos';
-      //  $user_id = $_SESSION['userId'];
         listarFavoritos($user_id);
     }
 
     if (isset($_POST['evento']) && $_POST['evento'] == 'agregarFavoritos') {
         $_SESSION['action'] = 'AgregarFavoritos';
-       // $user_id = $_SESSION['userId'];
-        //agregarFavoritos('');
+
+        $array_data = [
+            'user_id' => $user_id,
+            'google_books_id' =>$_POST["bookId"],
+            'titulo' => $_POST["titulo"],
+            'autor' => $_POST["bookId"],
+            'imagen_portada' => $_POST["image"],
+            'resena_personal' => $_POST["bookId"],
+            'descripion' => $_POST["descripcion"],
+            'fechaPublicacion' => $_POST["fechaPublicacion"]
+        ];
+        agregarFavoritos($array_data);
     }
 
     if (isset($_POST['evento']) && $_POST['evento'] == 'salirFavoritos') {
@@ -39,7 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['evento']) && $_POST['evento'] == 'eliminarBookFavoritos') {
         $_SESSION['action'] = 'ListarLibros';
         $google_books_id = $_POST['libroId'];
-       // $user_id = $_SESSION['userId'];
         eliminarBoookFavoritos($google_books_id, $user_id);
     }
 
