@@ -44,7 +44,7 @@ function listarFavoritos($user_id)
     $_SESSION['books'] = [];
     foreach ($books_array as $book) {
         $_SESSION['books'][] = array(
-            'Id' => $book['id'],
+            'Id' => $book['google_books_id'],
             'UserId' => $book['user_id'],
             'GoogleBooksId' => $book['google_books_id'],
             'Titulo' => $book['titulo'],
@@ -63,16 +63,11 @@ function eliminarBoookFavoritos($google_books_id, $user_id)
     $bookController = new BookController();
     $userController = new UserController();
     $bookController->deleteBook($google_books_id, $userController->getId($user_id));
-    echo "aqui estoy imprimiendo el id del user ". $userController->getId($user_id);
-
 }
 function agregarFavoritos($array)
 {
     $bookController = new BookController();
     $userController = new UserController();
-
-    
-    echo "aqui estoy imprimiendo el id del user ". $userController->getId($array['user_id']);
     
     $bookController->saveBook(
         $userController->getId($array['user_id']),

@@ -11,21 +11,12 @@ class BookModel
     }
 
     // Guardar un libro en la base de datos
-    public function saveBook($user_id, $google_books_id, $titulo, $autor, $imagen_portada, $reseña_personal,$descripcion,$fecha_publicacion)
+    public function saveBook($user_id, $google_books_id, $titulo, $autor, $imagen_portada, $reseña_personal, $descripcion, $fecha_publicacion)
     {
         $query = "INSERT INTO libros_guardados (user_id, google_books_id, titulo, autor, imagen_portada, reseña_personal,descripcion,fecha_publicacion) 
                   VALUES (?,?,?,?,?,?,?,?)";
         $stmt = $this->db->prepare($query);
-        /*
-        $stmt->bindParam("i", $user_id);
-        $stmt->bindParam('i', $google_books_id);
-        $stmt->bindParam('sss', $titulo);
-        $stmt->bindParam('sss', $autor);
-        $stmt->bindParam('sss', $imagen_portada);
-        $stmt->bindParam('sss', $reseña_personal);
-        $stmt->bindParam('sss', $descripcion);
-        $stmt->bindParam('sss', $fecha_publicacion);
-*/
+
         $stmt->bind_param("isssssss", $user_id, $google_books_id, $titulo, $autor, $imagen_portada, $reseña_personal, $descripcion, $fecha_publicacion);
 
         return $stmt->execute();
@@ -70,12 +61,12 @@ class BookModel
     public function deleteBook($google_books_id, $user_id)
     {
         $query = "DELETE FROM libros_guardados 
-        WHERE google_books_id = :google_books_id 
-        AND user_id = :user_id";
-        
+        WHERE google_books_id = ? 
+        AND user_id = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':google_books_id', $google_books_id);
-        $stmt->bindParam(':user_id', $user_id);
+
+        // Vincula los parámetros con los valores adecuados
+        $stmt->bind_param("si", $google_books_id, $user_id);
         return $stmt->execute();
     }
 }
