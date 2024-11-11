@@ -1,5 +1,6 @@
 # URL base de la aplicación
-BASE_URL=http://localhost
+
+BASE_URL= https://virtual-book.alwaysdata.net/public/index.php
 
 # Configuración de la base de datos
 #DB_HOST=junction.proxy.rlwy.net

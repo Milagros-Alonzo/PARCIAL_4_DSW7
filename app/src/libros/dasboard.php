@@ -2,9 +2,11 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+if (!isset($_SESSION['loginGoogle'])) {
+    $_SESSION['loginGoogle'] = false;
+}
 
 require 'libros.php';
-
 $user_id = $_SESSION['userId'];
 $_GET['lastBookSearch'] = "";
 
@@ -12,7 +14,7 @@ $_GET['lastBookSearch'] = "";
 // El resto del código...
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-   // var_dump($_POST);
+    // var_dump($_POST);
     if (isset($_POST['evento']) && $_POST['evento'] == 'searchBook') {
         if (isset($_POST['bookName'])) {
             $query = $_POST['bookName'];
@@ -31,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $array_data = [
             'user_id' => $user_id,
-            'google_books_id' =>$_POST["bookId"],
+            'google_books_id' => $_POST["bookId"],
             'titulo' => $_POST["titulo"],
             'autor' => $_POST["autor"],
             'imagen_portada' => $_POST["image"],

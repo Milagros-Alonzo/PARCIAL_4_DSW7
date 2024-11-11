@@ -22,7 +22,8 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="./../public/logout.php">Cerrar Sesion</a></li>
+                        <li><a class="dropdown-item" href="../../,public/logout.php">Cerrar Sesion</a></li>
+                        <li><a class="dropdown-item" href="https://virtual-book.alwaysdata.net/public/logout.php">Cerrar Sesión</a></li>
                     </ul>
                 </div>
             </span>

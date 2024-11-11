@@ -62,15 +62,27 @@ function eliminarBoookFavoritos($google_books_id, $user_id)
 {
     $bookController = new BookController();
     $userController = new UserController();
-    $bookController->deleteBook($google_books_id, $userController->getId($user_id));
+
+    if($_SESSION['loginGoogle']){
+        $userIdActive= $user_id;
+    }else{
+        $userIdActive= $userController->getId($user_id);
+    }
+
+    $bookController->deleteBook($google_books_id,$userIdActive);
 }
 function agregarFavoritos($array)
 {
     $bookController = new BookController();
     $userController = new UserController();
-    
+    if($_SESSION['loginGoogle']){
+        $userIdActive= $array['user_id'];
+    }else{
+        $userIdActive= $userController->getId($array['user_id']);
+    }
+
     $bookController->saveBook(
-        $userController->getId($array['user_id']),
+        $userIdActive,
         $array['google_books_id'],
         $array['titulo'],
         $array['autor'],
