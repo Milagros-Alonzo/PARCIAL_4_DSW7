@@ -23,14 +23,22 @@ class BookModel {
     }
 
     // Obtener todos los libros guardados por un usuario
+    /*
     public function getBooksByUserId($user_id) {
         $query = "SELECT * FROM libros_guardados WHERE user_id = :user_id ORDER BY fecha_guardado DESC";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':user_id', $user_id);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }    */
+    public function getBooksByUserId($user_id) {
+        $query = "SELECT * FROM libros_guardados WHERE user_id = ? ORDER BY fecha_guardado DESC";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("i", $user_id); // Usa bind_param con el tipo de dato (i para entero)
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    
     }
-
     // Obtener un libro guardado por su google_books_id y user_id
     public function getBookByGoogleIdAndUser($google_books_id, $user_id) {
         $query = "SELECT * FROM libros_guardados WHERE google_books_id = :google_books_id AND user_id = :user_id";

@@ -28,7 +28,7 @@ class Database {
             }
 
             // Mensaje de éxito
-            echo "Conexión establecida exitosamente";
+            //echo "Conexión establecida exitosamente";
         } catch (Exception $e) {
             echo "Excepción capturada: " . $e->getMessage();
         }

@@ -2,7 +2,7 @@
 // Archivo: app/controllers/BookController.php
 
 // Incluir el modelo de libro
-require_once 'app/models/BookModel.php';
+require_once __DIR__  .'/../models/BookModel.php';
 // Incluir la función de conexión a la base de datos
 require_once __DIR__ . '/../src/database/database.php';
 
