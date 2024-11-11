@@ -18,7 +18,7 @@ class UserController
     {
         $database = new Database();
         $this->db = $database->getConnection();
-        $this->userModel = new UserModel($this->db); 
+        $this->userModel = new UserModel($this->db);
     }
 
     // Actualizar la información de un usuario (por ejemplo, su nombre)
@@ -53,11 +53,12 @@ class UserController
          \app\controllers\UserController.php on line 45 */
     public function getId($google_id)
     {
-        
+
         return $this->userModel->getIdUser($google_id);
     }
 
-    public function login($email, $pass){
+    public function login($email, $pass)
+    {
         $res =  $this->userModel->login($email, $pass);
         var_dump($res);
         die();
@@ -72,8 +73,8 @@ class UserController
     // Método en el modelo UserModel para obtener el usuario por email
 
 
-// Método en el controlador UserController para iniciar sesión
-public function login($email, $pass)
+    // Método en el controlador UserController para iniciar sesión
+    /*public function login($email, $pass)
 {
     // Llamar al modelo para obtener los datos del usuario por email
     $user = $this->userModel->login($email);
@@ -94,15 +95,18 @@ public function login($email, $pass)
     } else {
         echo "Usuario o contraseña incorrectos.";
     }
+}*/
 }
 
 // Código de prueba
-$resultado = new UserController();
+/*$resultado = new UserController();
 $resultado->login("alonzomilagros24@gmail.com", "1234");
 
 }
 
 $resultado = new userController();
 $resultado->login("alonzomilagros24@gmail.com","1234");
+
 var_dump($resultado);
-die();
+die();*/
+?>

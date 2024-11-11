@@ -69,7 +69,7 @@ class UserModel
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $google_id);
         return $stmt->execute();
-    }
+    }}
 
     /*public function login($email,$pass)
     {
@@ -104,8 +104,7 @@ class UserModel
             echo "Tu cuenta aún no ha sido verificada. Revisa tu correo.";
         }
     } else {
-        echo "Usuario o contraseña incorrectos.";
-    
+        echo "Usuario o contraseña incorrectos
 }*/
 
 
