@@ -56,4 +56,21 @@ class UserController
         
         return $this->userModel->getIdUser($google_id);
     }
+
+    public function login($email, $pass){
+        $res =  $this->userModel->login($email, $pass);
+        var_dump($res);
+        die();
+        /*
+        if ($this->userModel->login($email, $pass) == 1) {
+            return true;
+        } else {
+            return false ;
+        }*/
+    }
 }
+
+$resultado = new userController();
+$resultado->login("alonzomilagros24@gmail.com","1234");
+var_dump($resultado);
+die();
