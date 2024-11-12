@@ -1,6 +1,7 @@
 <?php
 // Cargar el archivo .env y definir las variables de entorno
-function loadEnv($path) {
+function loadEnv($path)
+{
     if (!file_exists($path)) {
         echo "Error: El archivo .env no existe en la ruta: $path";
         return;
@@ -24,19 +25,27 @@ function loadEnv($path) {
 }
 
 // Llamar a la función para cargar las variables del archivo .env
-loadEnv(__DIR__ . '/../public/.env');
+//loadEnv(__DIR__ . '/../public/.env');
+
+// Definir la URL base para la aplicación
+define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']));
 
 // Definir la conexión a la base de datos
-$db_host = getenv('DB_HOST');
-$db_name = getenv('DB_NAME');
-$db_user = getenv('DB_USER');
-$db_pass = getenv('DB_PASS');
-$db_port = getenv('DB_PORT');
+getenv('DB_HOST');
+getenv('DB_NAME');
+getenv('DB_USER');
+getenv('DB_PASS');
+getenv('DB_PORT');
 
+
+define('API_URL_BOOK', getenv('API_URL_BOOK'));
+define('API_KEY_BOOK', getenv('API_KEY_BOOK'));
+/*
 $db = new mysqli($db_host, $db_user, $db_pass, $db_name, $db_port);
 
 // Verificar la conexión
 if ($db->connect_error) {
     die("Conexión fallida: " . $db->connect_error);
 }
-?>
+
+*/

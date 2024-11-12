@@ -2,6 +2,12 @@
 require  __DIR__ . '/../../controllers/BookController.php';
 require  __DIR__ . '/../../controllers/UserController.php';
 
+// require_once  __DIR__ . '/../../../config/config.php';
+// loadEnv(__DIR__ . '/../../../public/.env');
+
+define('API_URL_BOOK', 'https://www.googleapis.com/books/v1/volumes?q=');
+define('API_KEY_BOOK', 'AIzaSyBlL0dWLqcDoU7ZQ6MqL0SoLLm_OqaWkMU');
+
 function resumenTexto($texto)
 {
     $maxChar = 200;
@@ -17,8 +23,8 @@ function resumenTexto($texto)
 
 function fetchBooks($query)
 {
-    $apiKey = "AIzaSyBlL0dWLqcDoU7ZQ6MqL0SoLLm_OqaWkMU";
-    $url = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($query) . "&key=" . $apiKey;
+
+    $url =  API_URL_BOOK. urlencode($query) . "&key=" .API_KEY_BOOK;
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -108,14 +114,15 @@ function searchBook($query)
                     'Titulo' => $book['volumeInfo']['title'],
                     'Autor' => implode(", ", $book['volumeInfo']['authors'] ?? []),
                     'ImagenPortada' => $book['volumeInfo']['imageLinks']['thumbnail'] ?? "",
-                    'Descripcion' => resumenTexto($book['volumeInfo']['description'] ?? "No disponible"),
+                    //'Descripcion' => resumenTexto($book['volumeInfo']['description'] ?? "No disponible"),
+                    'Descripcion' => $book['volumeInfo']['description'] ?? "No disponible",
                     'FechaPublicacion' => $book['volumeInfo']['publishedDate'] ?? "",
                 );
             }
         } else {
-            echo json_encode(['error' => 'No se encontraron resultados.']);
+            //echo json_encode(['error' => 'No se encontraron resultados.']);
         }
     } else {
-        echo json_encode(['error' => 'campo vacio']);
+      //  echo json_encode(['error' => 'campo vacio']);
     }
 }

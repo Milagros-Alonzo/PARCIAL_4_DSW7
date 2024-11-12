@@ -20,7 +20,7 @@ if (isset($_GET['code'])) {
     $access_token = $googleOAuth->getAccessToken($code);
     if ($access_token) {
         $user_data = $googleOAuth->getUserInfo($access_token);
-        echo "Bienvenido, " . htmlspecialchars($user_data['name']);
+        //echo "Bienvenido, " . htmlspecialchars($user_data['name']);
         echo "<pre>";
         var_dump($user_data);
         echo "</pre>";
@@ -34,7 +34,7 @@ if (isset($_GET['code'])) {
 $_SESSION['userId'] = $user_data['id'];
 // var_dump($user_data);
 // die();
-/*
+$_SESSION['userSesionName'] = $user_data['name'];
 $email = $user_data['email'];
 $nombre = $user_data['name'];
 $google_id = $user_data['id'];
@@ -42,8 +42,8 @@ $google_id = $user_data['id'];
 
 $auth = new AuthController();
 $auth->register($email, $nombre, $google_id);
-*/
+
 $_SESSION['sesion'] = true;
 
-header("Location: /../../index.php");
+header("Location: ../../index.php");
 exit();

@@ -1,11 +1,11 @@
 <?php
 // Archivo: app/src/database/database.php
-
 class Database {
     private $conn;
-
+    
     public function __construct() {
         // Cargar el archivo de configuración
+        
         require_once __DIR__ . '/../../../src/config.php';
         loadEnv(__DIR__ . '/../../../public/.env');
 

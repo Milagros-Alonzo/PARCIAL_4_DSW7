@@ -1,29 +1,29 @@
 <?php
 require __DIR__ . '/../../src/libros/dasboard.php';
-//require __DIR__ . '/../../src/libros/libros_favoritos.php';
-require __DIR__ . '/../components/addLibro.php';
-//require __DIR__ . '/../components/editLibro.php';
+require __DIR__ . '/../components/libro_ver_mas.php';
 require __DIR__ . '/../components/agregar_favoritos_libro.php';
+
+
+if (!isset($_SESSION['userSesionName'])) {
+    $userSesionName = "User";
+} else {
+    $userSesionName = $_SESSION['userSesionName'];
+}
+define('BASE_URL', '/PARCIALES/PARCIAL_4_DSW7/');
 
 ?>
 <div class=" body  " id="container-libros">
     <div class="header-dasoard bg-secondary-subtle">
         <span class="  container-header  d-flex gap-3">
-            <p class="title">Dasboard</p>
+            <p class="title">Biblioteca</p>
             <span class="d-flex gap-3">
-                <p>Usuario : </p>
+                <p class="user-name"><?php echo $userSesionName ?></p>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-user"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                        <li><a class="dropdown-item active" href="#">Perfil</a></li>
-                        <li><a class="dropdown-item " href="#">Recuperar contraseña</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="../../,public/logout.php">Cerrar Sesion</a></li>
-                        <li><a class="dropdown-item" href="https://virtual-book.alwaysdata.net/public/logout.php">Cerrar Sesión</a></li>
+                        <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>public/logout.php">Cerrar Sesion</a></li>
                     </ul>
                 </div>
             </span>
@@ -52,7 +52,7 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
             <?php endif; ?>
         </div>
         <div class="">
-            <!-- ./../app/src/libros/dasboard.php -->
+            <?php if (isset($_SESSION['action']) && $_SESSION['action'] != 'ListarFavoritos'): ?>
             <form class="d-flex " method="post" action="" id="formSearchBook">
                 <div class="input-group mb-3">
                     <button type="submit" class="btn btn-primary input-group-text"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -60,6 +60,8 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                     <input type="text" class="form-control" name="bookName" data-book-event="SearchBook" id="searchBook" placeholder="Enter a Boook Name">
                 </div>
             </form>
+            <?php endif; ?>
+
         </div>
     </div>
     <!-- table  -->
@@ -88,17 +90,6 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
 
                         <td class="container-acciones">
                             <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
-                                <!-- Edit button that opens the modal and passes the user ID -->
-                                <span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Edit">
-                                    <buttom class=" btn btn-primary "
-                                        data-libro-id="<?php echo $arrayBook['Id'];
-                                                        ?>"
-                                        data-bs-target="#edit_libro"
-                                        id="btnEditBook"
-                                        data-bs-toggle="modal">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </buttom>
-                                </span>
 
                                 <button
                                     class="btn btn-danger" data-bs-toggle="tooltip"
@@ -110,6 +101,7 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                                     <i class="fa fa-trash"></i>
                                 </button>
                             <?php endif; ?>
+
                             <?php if (isset($_SESSION['action']) && $_SESSION['action'] != 'ListarFavoritos'): ?>
 
                                 <span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Agregar a Favoritos">
@@ -133,7 +125,18 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                                 <img class='img-fluid' src="<?php echo $arrayBook['ImagenPortada'] ?>" alt="<?php echo $arrayBook['Titulo'] ?>">
                             </span>
                         </td>
-                        <td><?php echo $arrayBook['Descripcion'] ?></td>
+                        <td>
+                        <span class="truncated-text"><?php echo $arrayBook['Descripcion']; ?></span>
+
+                            <buttom class=" btn btn-vermas "
+                                data-descripcion="<?php echo htmlspecialchars($arrayBook['Descripcion'], ENT_QUOTES, 'UTF-8'); ?>"
+                                data-libro-id="<?php echo $arrayBook['Id'];
+                                                ?>"
+                                data-bs-target="#verMasDesLibro"
+                                id="btnVerMasDescripcionBook"
+                                data-bs-toggle="modal">ver mas
+                            </buttom>
+                        </td>
                         <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'ListarFavoritos'): ?>
                             <td><?php echo $arrayBook['ResenaPersonal'] ?></td>
                         <?php endif; ?>
@@ -207,7 +210,18 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
 
             document.getElementById('modalTitle').textContent = titulo; // Establecer el título en el modal
 
-            // Establecer otros datos en el modal si es necesario, como autor, imagen, descripción, etc.
+        });
+    });
+
+    document.querySelectorAll('#btnVerMasDescripcionBook').forEach(button => {
+        button.addEventListener('click', function() {
+            const row = this.closest('tr');
+            const titulo = row.cells[1].textContent;
+            //  const descripcion = row.cells[4].textContent;
+            const descripcion = this.getAttribute('data-descripcion');
+            document.getElementById('titleBookDes').textContent = titulo;
+            document.getElementById('descriptionBookDes').textContent = descripcion;
+
         });
     });
 
@@ -226,8 +240,7 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
             })
             .then(response => response.text())
             .then(data => {
-                //alert(data); // Mostrar respuesta del servidor
-                // Opcionalmente, puedes cerrar el modal aquí
+
                 $('#agregarLibroFavorito').modal('hide');
             })
             .catch(error => console.error('Error:', error));
@@ -241,7 +254,7 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
             console.error('Error: Book ID is not defined.');
             return;
         }
-        //console.log(idBook);
+
         const formData = new FormData();
         formData.append('bookId', idBook);
         formData.append('evento', 'eliminarBookFavoritos');
@@ -250,8 +263,8 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                 body: formData
             })
 
-            .then(response => response.text()) // Cambia a .text() para recibir el mensaje como texto
-             .then(data => {
+            .then(response => response.text()) 
+            .then(data => {
                 //alert(data);
                 window.location.reload();
 
@@ -301,10 +314,13 @@ require __DIR__ . '/../components/agregar_favoritos_libro.php';
                 method: 'POST',
                 body: formData
             })
+            /*
+
             .then(response => response.text()) // Cambia a .text() para recibir el mensaje como texto
             .then(data => {
                 alert(data);
             })
+            */
             .catch(error => console.error('Error:', error));
     });
 </script>
