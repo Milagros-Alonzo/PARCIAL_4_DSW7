@@ -18,13 +18,22 @@ class UserModel
         return $stmt->execute();
     }
 
+    // Registrar un nuevo usuario credenciales de google
+    public function registerGoogle($email, $nombre, $google_id)
+    {
+        $query = "INSERT INTO usuarios (email, nombre, google_id) VALUES (?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sss', $email, $nombre, $google_id); // 'sss' indica que son tres strings
+        return $stmt->execute();
+    }
+
 
     // Obtener un usuario por su email
     public function getByEmail($email)
     {
         $query = "SELECT * FROM usuarios WHERE email = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $email); // 's' indica que es un string
+        $stmt->bind_param('s', $email);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc(); // Devolver el usuario si existe
     }
@@ -40,7 +49,7 @@ class UserModel
 
         // Si el usuario existe, devuelve el id. Si no, devuelve null
         if ($result) {
-            return (int) $result['id']; // Asegurarte de que el id es un entero
+            return (int) $result['id'];
         } else {
             return null; // Si no se encuentra el usuario
         }
@@ -51,12 +60,12 @@ class UserModel
     {
         $query = "SELECT * FROM usuarios WHERE google_id = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $google_id); // 's' indica que es un string
+        $stmt->bind_param('s', $google_id);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
 
-    // Actualizar información del usuario (por ejemplo, nombre)
+    // Actualizar información 
     public function update($google_id, $nombre)
     {
         $query = "UPDATE usuarios SET nombre = ? WHERE google_id = ?";
@@ -76,9 +85,8 @@ class UserModel
 
     public function login($email, $pass)
     {
-        // Consulta SQL para verificar si existe el usuario con el email y  especificados
+        // Consulta SQL para verificar si existe el usuario con el email
         $query = "SELECT 1 FROM usuarios WHERE email = ? AND pass_user = ? LIMIT 1";
-        // Preparar y ejecutar la consulta
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("ss", $email, $pass);
         $stmt->execute();

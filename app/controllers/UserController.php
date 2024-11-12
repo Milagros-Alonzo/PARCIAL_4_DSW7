@@ -47,6 +47,10 @@ class UserController
         return $this->userModel->getIdUser($google_id);
     }
 
+    public function getByGoogleId($google_id)
+    {
+        return $this->userModel->getByGoogleId($google_id);
+    }
 
     public function getByEmail($email)
     {
@@ -64,5 +68,10 @@ class UserController
     public function register($email, $nombre,  $pass)
     {
         return $this->userModel->register($email, $nombre, $pass);
+    }
+
+    public function registerGoogle($email, $nombre, $google_id)
+    {
+        return $this->userModel->registerGoogle($email, $nombre, $google_id);
     }
 }

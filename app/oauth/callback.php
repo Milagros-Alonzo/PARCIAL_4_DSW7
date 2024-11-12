@@ -20,7 +20,19 @@ if (isset($_GET['code'])) {
     $access_token = $googleOAuth->getAccessToken($code);
     if ($access_token) {
         $user_data = $googleOAuth->getUserInfo($access_token);
-        //echo "Bienvenido, " . htmlspecialchars($user_data['name']);
+        $_SESSION['userId'] = $user_data['id'];
+        // var_dump($user_data);
+        // die();
+        $_SESSION['userSesionName'] = $user_data['name'];
+        $email = $user_data['email'];
+        $nombre = $user_data['name'];
+        $google_id = $user_data['id'];
+
+        $auth = new AuthController(); //si la autorizacion fue proporcionada se realiza el registro
+        $auth->registerGoogle($email, $nombre, $google_id);
+
+        $_SESSION['sesion'] = true;
+        $_SESSION['loginGoogle'] = true;
         echo "<pre>";
         var_dump($user_data);
         echo "</pre>";
@@ -31,19 +43,5 @@ if (isset($_GET['code'])) {
     echo "No se recibió el código de autorización.";
 }
 
-$_SESSION['userId'] = $user_data['id'];
-// var_dump($user_data);
-// die();
-$_SESSION['userSesionName'] = $user_data['name'];
-$email = $user_data['email'];
-$nombre = $user_data['name'];
-$google_id = $user_data['id'];
-
-
-$auth = new AuthController();
-$auth->register($email, $nombre, $google_id);
-
-$_SESSION['sesion'] = true;
-$_SESSION['loginGoogle'] = true;
 header("Location: ../../index.php");
 exit();
