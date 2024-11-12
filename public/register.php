@@ -14,7 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validaciones básicas
     if (empty($name) || empty($email) || empty($pass)) {
-        echo 'todos los campos son obligatorios';
+        //echo 'todos los campos son obligatorios';
+        echo "Todos los campos son obligatorios'";
     } else {
 
         if (!$email) {
