@@ -24,7 +24,7 @@ function resumenTexto($texto)
 function fetchBooks($query)
 {
 
-    $url =  API_URL_BOOK. urlencode($query) . "&key=" .API_KEY_BOOK;
+    $url =  API_URL_BOOK . urlencode($query) . "&key=" . API_KEY_BOOK;
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -41,12 +41,26 @@ function fetchBooks($query)
     return $data;
 }
 
+function returnUserActiveId($user_id)
+{
+    $userController = new UserController();
+    if ($_SESSION['loginGoogle']) {
+        return $userController->getId($user_id);
+    } else {
+        return  $user_id;
+    }
+}
 
 function listarFavoritos($user_id)
 {
     $bookController = new BookController();
-    $books_array = $bookController->getBooksByUser($user_id);
+
+
     //print_r($books_array);
+    $userIdActive = returnUserActiveId($user_id);
+
+    $books_array = $bookController->getBooksByUser($userIdActive);
+
     $_SESSION['books'] = [];
     foreach ($books_array as $book) {
         $_SESSION['books'][] = array(
@@ -62,30 +76,21 @@ function listarFavoritos($user_id)
             'FechaPublicacion' => $book['fecha_publicacion'],
         );
     }
+
 }
 
 function eliminarBoookFavoritos($google_books_id, $user_id)
 {
     $bookController = new BookController();
-    $userController = new UserController();
 
-    if($_SESSION['loginGoogle']){
-        $userIdActive= $user_id;
-    }else{
-        $userIdActive= $userController->getId($user_id);
-    }
+    $userIdActive = returnUserActiveId($user_id);
 
-    $bookController->deleteBook($google_books_id,$userIdActive);
+    $bookController->deleteBook($google_books_id, $userIdActive);
 }
 function agregarFavoritos($array)
 {
     $bookController = new BookController();
-    $userController = new UserController();
-    if($_SESSION['loginGoogle']){
-        $userIdActive= $array['user_id'];
-    }else{
-        $userIdActive= $userController->getId($array['user_id']);
-    }
+    $userIdActive = returnUserActiveId($array['user_id']);
 
     $bookController->saveBook(
         $userIdActive,
@@ -123,6 +128,6 @@ function searchBook($query)
             //echo json_encode(['error' => 'No se encontraron resultados.']);
         }
     } else {
-      //  echo json_encode(['error' => 'campo vacio']);
+        //  echo json_encode(['error' => 'campo vacio']);
     }
 }

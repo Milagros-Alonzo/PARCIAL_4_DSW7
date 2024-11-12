@@ -27,13 +27,14 @@ class BookModel
     {
         $query = "SELECT * FROM libros_guardados l,usuarios u
                   WHERE l.user_id = u.id
-                  and u.google_id = ?
+                  and l.user_id = ?
                   ORDER BY fecha_guardado DESC";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("i", $user_id); // Usa bind_param con el tipo de dato (i para entero)
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+    
 
     // Obtener un libro guardado por su google_books_id y user_id
     public function getBookByGoogleIdAndUser($google_books_id, $user_id)

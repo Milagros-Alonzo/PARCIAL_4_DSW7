@@ -16,8 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         if ($userController->login($email, $password) == true) {
             $_SESSION['sesion'] = true;
-            $_SESSION['userId'] =   $userController->getIdByEmail($email);
-            $_SESSION['loginGoogle'] = true;
+            $_SESSION['loginGoogle'] = false;
+            $userInfo = $userController->getByEmail($email);
+            $_SESSION['userId'] =   $userInfo['id'];
+            $_SESSION['userSesionName'] = $userInfo['nombre'];
+
             header('Location: ../index.php'); // Redirige a index.php si el login es exitoso
             exit(); // Importante: detener el script después de la redirección
         } else {
@@ -25,4 +28,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-?>

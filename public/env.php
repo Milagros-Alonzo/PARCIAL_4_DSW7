@@ -38,7 +38,6 @@ API_KEY_BOOK=AIzaSyBlL0dWLqcDoU7ZQ6MqL0SoLLm_OqaWkMU
 API_URL_BOOK=https://www.googleapis.com/books/v1/volumes?q=
 
 
-CARPETA_IMG = img;
 
 #Datos para el Email
 EMAIL_PASS=fqwx xnkx aexl hxss

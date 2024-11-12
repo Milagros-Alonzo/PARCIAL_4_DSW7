@@ -4,11 +4,7 @@ require __DIR__ . '/../components/libro_ver_mas.php';
 require __DIR__ . '/../components/agregar_favoritos_libro.php';
 
 
-if (!isset($_SESSION['userSesionName'])) {
-    $userSesionName = "User";
-} else {
-    $userSesionName = $_SESSION['userSesionName'];
-}
+
 define('BASE_URL', '/PARCIALES/PARCIAL_4_DSW7/');
 
 ?>
@@ -17,7 +13,7 @@ define('BASE_URL', '/PARCIALES/PARCIAL_4_DSW7/');
         <span class="  container-header  d-flex gap-3">
             <p class="title">Biblioteca</p>
             <span class="d-flex gap-3">
-                <p class="user-name"><?php echo $userSesionName ?></p>
+                <p class="user-name"><?php echo $_SESSION['userSesionName'] ?></p>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-user"></i>

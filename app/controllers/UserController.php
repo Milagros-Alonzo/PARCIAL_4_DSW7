@@ -47,10 +47,7 @@ class UserController
         return $this->userModel->getIdUser($google_id);
     }
 
-    public function getIdByEmail($email)
-    {
-        return $this->userModel->getIdByEmail($email);
-    }
+
     public function getByEmail($email)
     {
         return $this->userModel->getByEmail($email);
