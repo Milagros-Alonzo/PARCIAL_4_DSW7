@@ -16,3 +16,11 @@
 .btn:focus {
   box-shadow: none !important;
 }
+.truncated-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; /* Ajusta el ancho deseado */
+  display: inline-block;
+  vertical-align: top;
+}

@@ -17,4 +17,7 @@ $auth_url = "https://accounts.google.com/o/oauth2/auth?"
     . "&access_type=offline";
 
 // Mostrar enlace para iniciar sesión con Google
-echo "<a href='$auth_url'>Iniciar sesión con Google</a>";
+echo "
+    <a class='btn btn-google' href='$auth_url'>
+    Iniciar sesión con Google
+    </a>";

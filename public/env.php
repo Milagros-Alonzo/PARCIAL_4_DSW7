@@ -1,6 +1,6 @@
 # URL base de la aplicación
 
-BASE_URL= https://virtual-book.alwaysdata.net/public/index.php
+BASE_URL= https://virtual-book.alwaysdata.net/
 
 # Configuración de la base de datos
 #DB_HOST=junction.proxy.rlwy.net
@@ -33,9 +33,9 @@ SCOPE=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/
 APP_ENV=development
 APP_DEBUG=true
 
-
-# Cadena con espacios
-SITE_NAME=Hotel 
+#API DE BOOKS
+API_KEY_BOOK=AIzaSyBlL0dWLqcDoU7ZQ6MqL0SoLLm_OqaWkMU
+API_URL_BOOK=https://www.googleapis.com/books/v1/volumes?q=
 
 
 CARPETA_IMG = img;

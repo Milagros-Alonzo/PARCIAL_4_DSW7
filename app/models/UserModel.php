@@ -10,22 +10,41 @@ class UserModel
     }
 
     // Registrar un nuevo usuario
-    public function register($email, $nombre, $pass) {
+    public function register($email, $nombre, $pass)
+    {
         $query = "INSERT INTO usuarios (email, nombre, pass_user) VALUES (?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('sss', $email, $nombre, $pass); // 'sss' indica que son tres strings
         return $stmt->execute();
     }
-    
+
 
     // Obtener un usuario por su email
-    public function getByEmail($email) {
+    public function getByEmail($email)
+    {
         $query = "SELECT * FROM usuarios WHERE email = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $email); // 's' indica que es un string
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc(); // Devolver el usuario si existe
     }
+    // Obtener un usuario por su email
+    public function getIdByEmail($email)
+    {
+        $query = "SELECT id FROM usuarios WHERE email = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $email); // 's' indica que es un string
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+
+        // Si el usuario existe, devuelve el id. Si no, devuelve null
+        if ($result) {
+            return (int) $result['id']; // Asegurarte de que el id es un entero
+        } else {
+            return null; // Si no se encuentra el usuario
+        }
+    }
+
 
     // Obtener un usuario por su google_id
     public function getIdUser($google_id)
@@ -43,7 +62,7 @@ class UserModel
             return null; // Si no se encuentra el usuario
         }
     }
-    
+
     // Obtener un usuario por su google_id
     public function getByGoogleId($google_id)
     {
@@ -80,11 +99,8 @@ class UserModel
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("ss", $email, $pass);
         $stmt->execute();
-        $result = $stmt->get_result();    
+        $result = $stmt->get_result();
         // Verificar si se encontró al menos una fila
         return $result->num_rows > 0;
     }
-
 }
-
-?>
