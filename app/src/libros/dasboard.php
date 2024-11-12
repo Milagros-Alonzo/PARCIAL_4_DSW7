@@ -2,9 +2,6 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-if (!isset($_SESSION['loginGoogle'])) {
-    $_SESSION['loginGoogle'] = false;
-}
 
 require 'libros.php';
 $user_id = $_SESSION['userId'];

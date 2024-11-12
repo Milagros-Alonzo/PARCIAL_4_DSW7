@@ -28,23 +28,6 @@ class UserModel
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc(); // Devolver el usuario si existe
     }
-    // Obtener un usuario por su email
-    public function getIdByEmail($email)
-    {
-        $query = "SELECT id FROM usuarios WHERE email = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $email); // 's' indica que es un string
-        $stmt->execute();
-        $result = $stmt->get_result()->fetch_assoc();
-
-        // Si el usuario existe, devuelve el id. Si no, devuelve null
-        if ($result) {
-            return (int) $result['id']; // Asegurarte de que el id es un entero
-        } else {
-            return null; // Si no se encuentra el usuario
-        }
-    }
-
 
     // Obtener un usuario por su google_id
     public function getIdUser($google_id)

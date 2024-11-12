@@ -44,6 +44,6 @@ $auth = new AuthController();
 $auth->register($email, $nombre, $google_id);
 
 $_SESSION['sesion'] = true;
-
+$_SESSION['loginGoogle'] = true;
 header("Location: ../../index.php");
 exit();
