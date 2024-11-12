@@ -36,6 +36,8 @@ if (isset($_GET['code'])) {
         echo "<pre>";
         var_dump($user_data);
         echo "</pre>";
+
+        
     } else {
         echo "Error al obtener el access token.";
     }
